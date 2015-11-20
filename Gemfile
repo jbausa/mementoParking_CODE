@@ -6,7 +6,7 @@ gem 'rails', '4.2.4'
 
 #Mongo
 gem 'mongo'
-gem 'mongoid'
+gem 'mongoid', '~> 4.0.1'
 gem 'bson_ext'
 
 # Use SCSS for stylesheets
