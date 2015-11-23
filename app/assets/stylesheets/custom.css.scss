@@ -1,0 +1,40 @@
+/* universal */
+
+/* Navbar fixed margin top */
+body {
+  padding-top: 60px;
+}
+
+section {
+  overflow: auto;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.center {
+  text-align: center;
+}
+
+.center h1 {
+  margin-bottom: 10px;
+}
+
+/* Navbar (title) fixed margin */
+.navbar-right {
+  margin-right: 50px !important;
+}
+
+.navbar-left {
+	margin-left: 20px !important;
+}
+
+.navbar-header {
+	margin-left: 20px !important;
+}
+
+/* Logo fixed width */
+.logo{
+	max-width: 140px;
+}

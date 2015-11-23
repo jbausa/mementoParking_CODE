@@ -4,10 +4,14 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.4'
 
-#Mongo
+# Mongo
 gem 'mongo'
 gem 'mongoid', '~> 4.0.1'
 gem 'bson_ext'
+
+# Bootstrap
+gem 'bootstrap-sass'       # should be already included
+gem 'bootswatch-rails'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'

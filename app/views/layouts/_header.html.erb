@@ -1,0 +1,20 @@
+<header class="navbar navbar-fixed-top navbar-default">
+  <div class="navbar-header">
+    <a class="brand" href="/">
+      <img class="logo" ; alt="Memento Parking" src="assets/logo_SinFondoBlanco.png">
+    </a>
+  </div>
+  <ul class="nav navbar-nav navbar-left">
+    <li class="<%= 'active' if current_page?(root_path) %>"><%= link_to "Inicio", root_path %></li>
+  </ul>
+  
+  <nav>
+    <ul class="nav navbar-nav navbar-right">
+      <li><%= link_to "Acceder", '#' %></li>
+      <li><%= link_to "Registrarse", '#' %></li>
+    </ul>
+  </nav>
+</header>
+
+
+
