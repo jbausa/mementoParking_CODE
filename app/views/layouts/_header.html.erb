@@ -10,7 +10,7 @@
         <span class="icon-bar"></span>
       </button>
       <a class="brand" href="/">
-        <img class="logo" ; alt="Memento Parking" src="assets/logo.png">
+        <img class="logo" ; alt="Memento Parking" src="/assets/logo.png">
       </a>
     </div>
 
@@ -21,8 +21,13 @@
     </ul>
 
       <ul class="nav navbar-nav navbar-right">
-        <li><%= link_to "Acceder", '#' %></li>
-        <li><%= link_to "Registrarse", '#' %></li>
+        <% if user_signed_in? %>
+          <li style="color:white; padding-top: 20px;">Bienvenido <%= current_user.email %> </li>
+          <li><%= link_to "Cerrar sesión", destroy_user_session_path %> </li>
+        <% else %>
+          <li><%= link_to "Acceder", new_user_session_path %></li>
+          <li><%= link_to "Registrarse", new_user_registration_path %></li>
+        <% end %>
       </ul>
     </div><!-- /.navbar-collapse -->
   <!-- </div>/.container-fluid 

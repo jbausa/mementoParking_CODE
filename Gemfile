@@ -37,8 +37,8 @@ gem 'contact_us', '~> 1.0.1'
 gem 'rails-i18n'
 
 # Use Devise and OmniAuth for autentication
-# gem 'devise'
-# gem 'omniauth'
+gem 'devise'
+gem 'omniauth'
 # gem 'omniauth-facebook'
 # gem 'omniauth-twitter'
 
