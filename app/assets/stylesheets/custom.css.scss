@@ -8,6 +8,7 @@ body {
     -moz-background-size: contain;
     -o-background-size: contain;
     background-size: contain;
+    overflow-y: auto;
 }
 
 
@@ -58,5 +59,7 @@ textarea {
 	margin-top: 60px;
 }
 
-
-
+/* Fixed container margin bottom */
+.container {
+  margin-bottom: 40px;
+}

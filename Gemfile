@@ -4,12 +4,12 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.4'
 
-# Mongo
+# Use Mongo for DB
 gem 'mongo'
 gem 'mongoid', '~> 4.0.1'
 gem 'bson_ext'
 
-# Bootstrap
+# Use Bootstrap for friendly and responsive UI
 gem 'bootstrap-sass'       # should be already included
 gem 'bootswatch-rails'
 
@@ -31,10 +31,16 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
-#Contact us https://github.com/jdutil/contact_us
+#Use ContactUs for contact form https://github.com/jdutil/contact_us
 gem 'contact_us', '~> 1.0.1'
 
 gem 'rails-i18n'
+
+# Use Devise and OmniAuth for autentication
+# gem 'devise'
+# gem 'omniauth'
+# gem 'omniauth-facebook'
+# gem 'omniauth-twitter'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
