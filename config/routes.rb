@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   
+  get 'static_pages/maps'
+
   devise_for :users
   #get 'static_pages/home'
   root    'static_pages#home'
@@ -7,6 +9,8 @@ Rails.application.routes.draw do
   get 'help'  =>  'static_pages#help'
 
   get 'about' =>  'static_pages#about'
+
+  get 'maps'  =>  'static_pages#maps'
 
   #get 'contact' =>  'static_pages#contact'
 
