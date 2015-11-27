@@ -25,7 +25,7 @@ RSpec.describe StaticPagesController, type: :controller do
 end
 
 RSpec.describe ContactUs::ContactsController, type: :controller do
-  describe "get #contact" do
+  describe "GET #contact" do
     it "returns http success" do
       get :new
       expect(response).to have_http_status(:success)

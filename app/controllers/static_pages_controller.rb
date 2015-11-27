@@ -11,4 +11,8 @@ class StaticPagesController < ApplicationController
 
   def maps
   end
+
+  def account
+  end
+  
 end

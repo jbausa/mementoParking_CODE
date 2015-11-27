@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   
+  get 'static_pages/account'
+
   get 'static_pages/maps'
 
   devise_for :users
@@ -12,6 +14,7 @@ Rails.application.routes.draw do
 
   get 'maps'  =>  'static_pages#maps'
 
+  get 'account' =>  'static_pages#account'
   #get 'contact' =>  'static_pages#contact'
 
   get 'contact' => 'contact_us/contacts#new'

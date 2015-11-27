@@ -1,35 +1,51 @@
 <header class="navbar navbar-fixed-top navbar-default">
  <!--<nav class="navbar navbar-default">
-  <div class="container-fluid">-->
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="brand" href="/">
-        <img class="logo" ; alt="Memento Parking" src="/assets/logo.png">
-      </a>
-    </div>
+ <div class="container-fluid">-->
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="brand" href="/">
+      <img class="logo" ; alt="Memento Parking" src="/assets/logo.png">
+    </a>
+  </div>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav navbar-left">
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="nav navbar-nav navbar-left">
       <li class="<%= 'active' if current_page?(root_path) %>"><%= link_to "Inicio", root_path %></li>
     </ul>
 
-      <ul class="nav navbar-nav navbar-right">
-        <% if user_signed_in? %>
-          <li style="color:white; padding-top: 20px;">Bienvenido <%= current_user.email %> </li>
-          <li><%= link_to "Cerrar sesión", destroy_user_session_path %> </li>
-        <% else %>
-          <li><%= link_to "Acceder", new_user_session_path %></li>
-          <li><%= link_to "Registrarse", new_user_registration_path %></li>
-        <% end %>
-      </ul>
-    </div><!-- /.navbar-collapse -->
+    <ul class="nav navbar-nav navbar-right">
+      <!-- Si el usuario tiene sesión abierta -->
+      <% if user_signed_in? %>
+      <li style="color:white; padding-top: 20px;">Bienvenido <%= current_user.email %> </li>
+      <li>
+        <div class="btn-group">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-top: 7px; margin-left: 5px;"> Cuenta <span class="caret"></span> </button>
+          <ul class="dropdown-menu">
+            <!-- <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li> -->
+            <li><%= link_to "Mis ubicaciones", maps_path %></li>
+            <li><%= link_to "Mis datos", account_path %></li>
+            <li role="separator" class="divider"></li>
+            <li><%= link_to   "Cerrar sesión", destroy_user_session_path %> </li>
+          </ul>
+        </div>
+        </li>
+
+      <!-- Si el usuario NO tiene sesión abierta -->
+      <% else %>
+      <li><%= link_to "Acceder", new_user_session_path %></li>
+      <li><%= link_to "Registrarse", new_user_registration_path %></li>
+      <% end %>
+    </ul>
+  </div><!-- /.navbar-collapse -->
   <!-- </div>/.container-fluid 
 </nav>-->
 </header>

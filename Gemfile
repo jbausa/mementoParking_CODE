@@ -34,7 +34,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 #Use ContactUs for contact form https://github.com/jdutil/contact_us
 gem 'contact_us', '~> 1.0.1'
 
-gem 'rails-i18n'
+#gem 'rails-i18n'
 
 # Use Devise and OmniAuth for autentication
 gem 'devise'
@@ -57,6 +57,9 @@ group :development, :test do
   
   # Rspec
   gem 'rspec-rails'
+  gem 'factory_girl'
+  gem 'factory_girl_rails'
+
 end
 
 group :development do
