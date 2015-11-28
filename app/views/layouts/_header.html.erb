@@ -17,7 +17,11 @@
   <!-- Collect the nav links, forms, and other content for toggling -->
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
     <ul class="nav navbar-nav navbar-left">
-      <li class="<%= 'active' if current_page?(root_path) %>"><%= link_to "Inicio", root_path %></li>
+      <li class="<%= 'active' if current_page?(root_path) %>">
+        <%= link_to root_path do %>
+        <i class="fa fa-home" style="margin-right: 10px"></i>Inicio
+        <% end %>
+      </li>
     </ul>
 
     <ul class="nav navbar-nav navbar-right">
@@ -27,30 +31,55 @@
       <li>
         <div class="btn-group">
           <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-top: 7px; margin-left: 10px;"> <span class="glyphicon glyphicon-user" aria-hidden="true" style="margin-right: 10px"></span>
-          <%= if !current_user.name then 
-                current_user.email 
-              elsif current_user.surname then 
-                current_user.name + " " + current_user.surname
-              else
-                current_user.name
+            <%= if !current_user.name then 
+              current_user.email 
+            elsif current_user.surname then 
+              current_user.name + " " + current_user.surname
+            else
+              current_user.name
               end %> 
-          <span class="caret"></span> </button>
-          <ul class="dropdown-menu">
-            <li><%= link_to "Mis ubicaciones", maps_path %></li>
-            <li><%= link_to "Mis datos", edit_user_registration_path %></li>
-            <li role="separator" class="divider"></li>
-            <li><%= link_to   "Cerrar sesión", destroy_user_session_path %> </li>
-          </ul>
-        </div>
-        </li>
+              <span class="caret"></span> </button>
+              <ul class="dropdown-menu">
+                <li>
+                  <%= link_to maps_path do %>
+                  <i class="fa fa-map-marker" style="margin-right: 10px"></i>Mis ubicaciones
+                  <% end %>
+                </li>
 
-      <!-- Si el usuario NO tiene sesión abierta -->
-      <% else %>
-        <li><%= link_to "Acceder", new_user_session_path %></li>
-        <li><%= link_to "Registrarse", new_user_registration_path %></li>
-      <% end %>
-    </ul>
-  </div><!-- /.navbar-collapse -->
+                <li>
+                  <%= link_to edit_user_registration_path do %>
+                  <i class="glyphicon glyphicon-edit" style="margin-right: 10px"></i>Mis datos
+                  <% end %>
+                </li>
+
+                <li role="separator" class="divider"></li>
+
+                <li>
+                  <%= link_to destroy_user_session_path do %>
+                  <i class="fa fa-sign-out" style="margin-right: 10px"></i>Cerrar sesión
+                  <% end %>
+                </li>
+
+
+              </ul>
+            </div>
+          </li>
+
+          <!-- Si el usuario NO tiene sesión abierta -->
+          <% else %>
+          <li>
+            <%= link_to new_user_session_path do %>
+            <i class="fa fa-sign-in" style="margin-right: 10px"></i>Acceder
+            <% end %>
+          </li>
+          <li>
+            <%= link_to new_user_registration_path do %>
+            <i class="fa fa-plus-square" style="margin-right: 10px"></i>Registrarse
+            <% end %>
+          </li>
+          <% end %>
+        </ul>
+      </div><!-- /.navbar-collapse -->
   <!-- </div>/.container-fluid 
 </nav>-->
 </header>
