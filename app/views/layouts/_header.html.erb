@@ -23,16 +23,21 @@
     <ul class="nav navbar-nav navbar-right">
       <!-- Si el usuario tiene sesión abierta -->
       <% if user_signed_in? %>
-      <li style="color:white; padding-top: 20px;">Bienvenido <%= current_user.email %> </li>
+      <li style="color:white; padding-top: 20px;">Bienvenido, </li>
       <li>
         <div class="btn-group">
-          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-top: 7px; margin-left: 5px;"> Cuenta <span class="caret"></span> </button>
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-top: 7px; margin-left: 10px;"> <span class="glyphicon glyphicon-user" aria-hidden="true" style="margin-right: 10px"></span>
+          <%= if !current_user.name then 
+                current_user.email 
+              elsif current_user.surname then 
+                current_user.name + " " + current_user.surname
+              else
+                current_user.name
+              end %> 
+          <span class="caret"></span> </button>
           <ul class="dropdown-menu">
-            <!-- <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li> -->
             <li><%= link_to "Mis ubicaciones", maps_path %></li>
-            <li><%= link_to "Mis datos", account_path %></li>
+            <li><%= link_to "Mis datos", edit_user_registration_path %></li>
             <li role="separator" class="divider"></li>
             <li><%= link_to   "Cerrar sesión", destroy_user_session_path %> </li>
           </ul>
@@ -41,8 +46,8 @@
 
       <!-- Si el usuario NO tiene sesión abierta -->
       <% else %>
-      <li><%= link_to "Acceder", new_user_session_path %></li>
-      <li><%= link_to "Registrarse", new_user_registration_path %></li>
+        <li><%= link_to "Acceder", new_user_session_path %></li>
+        <li><%= link_to "Registrarse", new_user_registration_path %></li>
       <% end %>
     </ul>
   </div><!-- /.navbar-collapse -->

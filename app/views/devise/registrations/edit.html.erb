@@ -4,6 +4,16 @@
   <%= devise_error_messages! %>
 
   <div class="field">
+    <%= f.label :Nombre %><br />
+    <%= f.text_field :name%>
+  </div>
+
+  <div class="field">
+    <%= f.label :Apellidos%><br />
+    <%= f.text_field :surname%>
+  </div>
+
+  <div class="field">
     <%= f.label :email %><br />
     <%= f.email_field :email, autofocus: true %>
   </div>
@@ -26,6 +36,7 @@
     <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
     <%= f.password_field :current_password, autocomplete: "off" %>
   </div>
+
 
   <div class="actions">
     <%= f.submit "Update" %>
