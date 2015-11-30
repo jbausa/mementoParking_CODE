@@ -15,7 +15,7 @@ Rails.application.routes.draw do
 
   get 'maps'  =>  'static_pages#maps'
 
-  get 'account' =>  'static_pages#account'
+  #get 'account' =>  'static_pages#account'
   #get 'contact' =>  'static_pages#contact'
 
   get 'contact' => 'contact_us/contacts#new'

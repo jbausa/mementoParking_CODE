@@ -2,8 +2,9 @@
 <div class="jumbotron fixed-top">
   <div class="panel panel-default">
     <div class="panel-heading">
-    <h3 class="panel-title"><span class="glyphicon glyphicon-user" aria-hidden="true" style="margin-right: 10px"></span>Mis datos personales</h3>
+    <h3 class="panel-title"><span class="glyphicon glyphicon-edit" aria-hidden="true" style="margin-right: 10px"></span>Mis datos personales</h3>
     </div>
+
     <div class="panel-body">
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
       <%= devise_error_messages! %>
@@ -45,13 +46,14 @@
       <% end %>
 
     </div>
-
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title"><span class="fa fa-trash" aria-hidden="true" style="margin-right: 10px"></span>Borrar mi cuenta</h3>
-      </div>
-      <div class="panel-body">
-        <p><%= button_to "Borrar mi cuenta", registration_path(resource_name), data: { confirm: "¿Estás seguro?" }, method: :delete, :class => "btn-danger btn" %></p>
-      </div>
+  </div> <!-- End of first panel-->
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title"><span class="fa fa-trash" aria-hidden="true" style="margin-right: 10px"></span>Borrar mi cuenta</h3>
     </div>
-  </div>
+    <div class="panel-body">
+      <p><%= button_to "Borrar mi cuenta", registration_path(resource_name), data: { confirm: "¿Estás seguro?" }, method: :delete, :class => "btn-danger btn" %></p>
+    </div>
+  </div> <!-- End ofsecond panel -->
+</div> <!-- End of jumbotron -->
+

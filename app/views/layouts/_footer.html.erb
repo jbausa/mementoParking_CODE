@@ -1,5 +1,12 @@
 <footer class="navbar navbar-fixed-bottom navbar-default">
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#footer-collapse" aria-expanded="false"><span class="fa fa-arrow-up" style ="color: white"></span>
+      <span class="sr-only">Toggle navigation</span>
+<!--       <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span> -->
+    </button>
 	<nav>
+	<div class="collapse navbar-collapse" id="footer-collapse">
 		<ul class="nav navbar-nav navbar-right">
 			<li class="<%= 'active' if current_page?(contact_path) %>">
 				<%= link_to contact_path do %>
@@ -17,5 +24,6 @@
 				<% end %>
 			</li>
 		</ul>
+		</div>
 	</nav>
 </footer>

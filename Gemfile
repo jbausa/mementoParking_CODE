@@ -43,6 +43,10 @@ gem 'omniauth'
 # gem 'omniauth-facebook'
 # gem 'omniauth-twitter'
 
+# Googel Maps and Geocode
+gem 'geocoder'
+gem 'gmaps4rails'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -60,6 +64,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl'
   gem 'factory_girl_rails'
+  gem 'capybara'
 
 end
 

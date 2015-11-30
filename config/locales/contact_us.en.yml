@@ -6,20 +6,20 @@ es:
     contact_mailer:
       contact_email:
         sent_by_contact_form: "Enviado por el formulario de contacto. %{email}"
-        sent_by_name: "Sent by %{name} from %{email}"
-        subject: "Contact Us message from %{email}"
+        sent_by_name: "Enviado por %{name} desde %{email}"
+        subject: "Contact Us mensaje de %{email}"
     contacts:
       new: &new
-        contact_us: "Contactanos"
+        contact_us: "Contáctanos"
         email: "Email"
         message: "Mensaje"
-        name: "Name"
-        subject: "Subject"
+        name: "Nombre"
+        subject: "Asunto"
         submit: "Enviar"
       new_formtastic:
         <<: *new
       new_simple_form:
         <<: *new
     notices:
-      error: "Debes de ingresar ambos campos."
+      error: "Debes ingresar ambos campos."
       success: "El correo electrónico de contacto fue enviado con éxito."

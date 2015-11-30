@@ -11,6 +11,49 @@ body {
     overflow-y: auto;
 }
 
+/* Jumbotron color change */
+.jumbotron {
+  background-color: #CACCC6 !important;
+}
+
+/* Font size for Button Large */
+.btn-lg {
+  font-size: 18px !important; 
+}
+
+/* Font size for Button */
+.btn {
+  font-size: 13px !important;
+}
+
+/* Font size for Navbar*/
+
+.navbar .nav > li > a {
+  font-size: 13px !important;
+}
+
+/* Panel Title font size */
+.panel .panel-heading, .panel .panel-title {
+  font-size: 15px !important;
+}
+/* Field fix margin bottom for signu-up sign-in */
+
+.field {
+  margin-bottom: 10px;
+}
+
+/* Alert message devise font size */
+h2, .h2 {
+  font-size: 20px !important;
+}
+
+/* Fixed for maps canvas */
+
+#map-canvas {
+   display: block;
+   width: 100%;
+   height: 400px;
+}
 
 section {
   overflow: auto;
