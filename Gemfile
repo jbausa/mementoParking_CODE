@@ -46,6 +46,7 @@ gem 'omniauth'
 # Googel Maps and Geocode
 gem 'geocoder'
 gem 'gmaps4rails'
+gem 'geo_location'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

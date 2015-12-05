@@ -32,6 +32,7 @@ module MementoParking
     config.i18n.fallbacks = {'es' => 'en'}
     config.i18n.default_locale = :en
     config.assets.paths << Rails.root.join("vendor","assets", "fonts")
+    config.assets.precompile += %w( maps/maps )
 
     end
 end

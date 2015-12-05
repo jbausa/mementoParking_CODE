@@ -1,55 +1,100 @@
- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAVdlyqpDfn1sXmYcY9WJS4cfU0jnkIWao&sensor=false">
- </script>
+ <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3?key=AIzaSyAVdlyqpDfn1sXmYcY9WJS4cfU0jnkIWao&sensor=false"></script>
  <script type="text/javascript">
- 	function set_map(state, city){
- 		var mapOptions = {
- 			center: new google.maps.LatLng(25.687944,-100.309403),
- 			zoom: 8,
- 			mapTypeId: google.maps.MapTypeId.ROADMAP
- 		};
- 		var map = new google.maps.Map(document.getElementById("map-canvas"),
- 			mapOptions);
+ 	var map = null;
+ 	var marker2 = null;
+ 	var infowindow = new google.maps.InfoWindow({size: new google.maps.Size(150,50)});
 
- 		if(state == ""){
- 			address = city;
- 		}else{
- 			address = state + ',' + city;
- 		}
+ // A function to create the marker and set up the event window function 
+ function createMarker(latlng, name, html) {
+ 	var contentString = html;
+ 	var geocoder = new google.maps.Geocoder;
+ 	var marker = new google.maps.Marker({
+ 		position: latlng,
+ 		map: map,
+ 		label: 'A',
+ 		zIndex: Math.round(latlng.lat()*-100000)<<5
+ 	});
+ 	geocoder.geocode({'location': latlng}, function(results, status) {
+ 		if (status === google.maps.GeocoderStatus.OK) {
+ 			if (results[1]) {
+ 				map.setZoom(17);
+ 				infowindow.setContent(results[0].formatted_address);
+					// Show marker in map
+					 infowindow.open(map, marker);
+				} else {
+					window.alert('No results found');
+				}
+			} else {
+				window.alert('Geocoder failed due to: ' + status);
+			}
+		});
+ 	google.maps.event.trigger(marker, 'click');    
+ 	return marker;
+ }
 
- 		var geocoder = new google.maps.Geocoder();
+ function set_map_Location(position){
+ 	var mapOptions = {
+ 		center: new google.maps.LatLng(position.coords.latitude,position.coords.longitude),
+ 		zoom: 17,
+ 		mapTypeId: google.maps.MapTypeId.ROADMAP
+ 	};
+ 	map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+ 	/* Add marker and infowindow */
+ 	var marker = new google.maps.Marker({position: new google.maps.LatLng(position.coords.latitude, position.coords.longitude), map: map});
+ 	var infowindow = new google.maps.InfoWindow;
+ 	/* END */
+ 	var latlng = {lat: parseFloat(position.coords.latitude), lng: parseFloat(position.coords.longitude)};
+ 	var geocoder = new google.maps.Geocoder;
+ 	geocoder.geocode({'location': latlng}, function(results, status) {
+ 		if (status === google.maps.GeocoderStatus.OK) {
+ 			if (results[1]) {
+ 				map.setZoom(17);
+ 				infowindow.setContent(results[0].formatted_address);
+					// Show marker in map
+					// infowindow.open(map, marker);
+				} else {
+					window.alert('No results found');
+				}
+			} else {
+				window.alert('Geocoder failed due to: ' + status);
+			}
+		});
 
- 		geocoder.geocode({
- 			'address':address
- 		},
+ 	google.maps.event.addListener(marker, 'click', function(){infowindow.open(map,marker);});
 
- 		function(result, status){
- 			if (status == google.maps.GeocoderStatus.OK){
- 				map.setCenter(result[0].geometry.location);
+ 	google.maps.event.addListener(map, 'click', function(event) {
+	//call function to create marker
+	if (marker2) {
+		marker2.setMap(null);
+		marker2 = null;
+	}
+	marker2 = createMarker(event.latLng, "name", "<b>Location</b><br>"+event.latLng);
+});
 
- 				var marker = new google.maps.Marker({
- 					map: map,
- 					position: result[0].geometry.location
- 				});
- 			}else{
- 				alert("Geocode was not successful for the following reason: " + status);
- 			}
- 		});
- 		return false;
+ }
+
+ function getLocation() {
+ 	if (navigator.geolocation) {
+ 		navigator.geolocation.getCurrentPosition(set_map_Location);
+ 	} else {
+ 		x.innerHTML = "Geolocation is not supported by this browser.";
  	}
+ }
+ $(document).ready(getLocation());
+</script>
 
- 	$(document).ready(function(){
- 		set_map('', 'Madrid');
- 	})
- </script>
+<div class="jumbotron fixed-top">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title"><span class="fa fa-map-marker" aria-hidden="true" style="margin-right: 10px"></span>Mis ubicaciones</h3>
+		</div>
 
- <div class="jumbotron fixed-top">
- 	<div class="panel panel-default">
- 		<div class="panel-heading">
- 			<h3 class="panel-title"><span class="fa fa-map-marker" aria-hidden="true" style="margin-right: 10px"></span>Mis ubicaciones</h3>
- 		</div>
+		<div class="panel-body">
+			<div id="map-canvas"></div>
 
- 		<div class="panel-body">
- 			<div id="map-canvas"></div>
- 		</div>
- 	</div>
- </div>
+			<!-- <div class="btn btn-success" onclick="set_map('Spain','Toledo')">Centrar</div> -->
+			<div class="btn btn-success" onclick="getLocation()">Geolocation</div>
+
+		</div>
+	</div>
+</div>
