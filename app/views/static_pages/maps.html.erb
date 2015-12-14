@@ -1,54 +1,38 @@
- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3?key=AIzaSyAVdlyqpDfn1sXmYcY9WJS4cfU0jnkIWao&sensor=false"></script>
+ <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAVdlyqpDfn1sXmYcY9WJS4cfU0jnkIWao"></script>
  <script type="text/javascript">
+ 	// VARIABLES
  	var map = null;
  	var marker2 = null;
+ 	var latlng = null;
  	var infowindow = new google.maps.InfoWindow({size: new google.maps.Size(150,50)});
+ 	var coords = null;
 
- // A function to create the marker and set up the event window function 
- function createMarker(latlng, name, html) {
- 	var contentString = html;
- 	var geocoder = new google.maps.Geocoder;
- 	var marker = new google.maps.Marker({
- 		position: latlng,
- 		map: map,
- 		label: 'A',
- 		zIndex: Math.round(latlng.lat()*-100000)<<5
- 	});
- 	geocoder.geocode({'location': latlng}, function(results, status) {
- 		if (status === google.maps.GeocoderStatus.OK) {
- 			if (results[1]) {
- 				map.setZoom(17);
- 				infowindow.setContent(results[0].formatted_address);
-					// Show marker in map
-					 infowindow.open(map, marker);
-				} else {
-					window.alert('No results found');
-				}
-			} else {
-				window.alert('Geocoder failed due to: ' + status);
-			}
-		});
- 	google.maps.event.trigger(marker, 'click');    
- 	return marker;
+ function setCoords(newCoords){
+ 	coords = newCoords;
  }
 
- function set_map_Location(position){
+function set_map_Location(position){
+
+ 	/* Create map */
  	var mapOptions = {
  		center: new google.maps.LatLng(position.coords.latitude,position.coords.longitude),
  		zoom: 17,
  		mapTypeId: google.maps.MapTypeId.ROADMAP
  	};
  	map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+ 	
  	/* Add marker and infowindow */
  	var marker = new google.maps.Marker({position: new google.maps.LatLng(position.coords.latitude, position.coords.longitude), map: map});
  	var infowindow = new google.maps.InfoWindow;
  	/* END */
- 	var latlng = {lat: parseFloat(position.coords.latitude), lng: parseFloat(position.coords.longitude)};
+ 	latlng = {lat: parseFloat(position.coords.latitude), lng: parseFloat(position.coords.longitude)};
+ 	
+ 	/* Locate position */
  	var geocoder = new google.maps.Geocoder;
  	geocoder.geocode({'location': latlng}, function(results, status) {
  		if (status === google.maps.GeocoderStatus.OK) {
  			if (results[1]) {
- 				map.setZoom(17);
+ 				map.setZoom(15);
  				infowindow.setContent(results[0].formatted_address);
 					// Show marker in map
 					// infowindow.open(map, marker);
@@ -60,14 +44,16 @@
 			}
 		});
 
+ 	/* Listeners */
  	google.maps.event.addListener(marker, 'click', function(){infowindow.open(map,marker);});
-
  	google.maps.event.addListener(map, 'click', function(event) {
+	
 	//call function to create marker
 	if (marker2) {
 		marker2.setMap(null);
 		marker2 = null;
 	}
+	setCoords(event.latLng);
 	marker2 = createMarker(event.latLng, "name", "<b>Location</b><br>"+event.latLng);
 });
 
@@ -75,26 +61,100 @@
 
  function getLocation() {
  	if (navigator.geolocation) {
+ 		coords = null;
  		navigator.geolocation.getCurrentPosition(set_map_Location);
  	} else {
  		x.innerHTML = "Geolocation is not supported by this browser.";
  	}
  }
- $(document).ready(getLocation());
+
+// Change label on map click with street location
+function changeLabel(address){
+	lblPosition = document.getElementById('lblPosition');
+	lblPosition.innerHTML = address;
+	$('#lblPosition').show();
+}
+
+ // A function to create the marker and set up the event window function 
+function createMarker(latlng, name, html) {
+	var contentString = html;
+ 	var geocoder = new google.maps.Geocoder;
+ 	var marker = new google.maps.Marker({position: latlng, map: map, label: 'A', zIndex: Math.round(latlng.lat()*-100000)<<5});
+ 	geocoder.geocode({'location': latlng}, function(results, status) {
+ 		if (status === google.maps.GeocoderStatus.OK) {
+ 			if (results[1]) {
+ 				map.setZoom(15);
+ 				infowindow.setContent(results[0].formatted_address);
+				// Show marker in map
+				changeLabel(results[0].formatted_address);
+			} else {
+				window.alert('No results found');
+			}
+		} else {
+			window.alert('Geocoder failed due to: ' + status);
+		}
+	});
+
+ 	google.maps.event.trigger(marker, 'click');
+ 	return marker;
+ }
+
+function saveLocation(){
+	if(coords!=null){
+		window.open("coords?&coord="+coords,"_self");
+	}
+	else{
+		$('#alertCoord').show();
+	}
+
+}
+
+function getAdress(latlng){
+
+}
+
+$(document).ready(getLocation());
+
 </script>
 
-<div class="jumbotron fixed-top">
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h3 class="panel-title"><span class="fa fa-map-marker" aria-hidden="true" style="margin-right: 10px"></span>Mis ubicaciones</h3>
+<div class="col-xs-12 column jumbotron fixed-top">
+	<div class="col-xs-9 column">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title"><span class="fa fa-map-marker" aria-hidden="true" style="margin-right: 10px"></span>Mi mapa</h3>
+			</div>
+			<div class="panel-body">
+				<div class="alert alert-danger alert-dismissible" role="alert" id="alertCoord" style="display:none;"	>
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				 	<strong>¡Error!</strong> Selecciona una ubicación antes de guardar.
+				</div>
+ 
+				<div id="map-canvas"></div>
+				<div class="btn btn-success" onclick="getLocation()">Centrar</div>
+				<div class="btn btn-success" onclick="saveLocation()">Guardar marcador</div>
+			</div>
 		</div>
+	</div>
+	<div class="col-xs-3 column">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title"><span class="fa fa-car" aria-hidden="true" style="margin-right: 10px"></span>Mis ubicaciones</h3>
+			</div>	
+			<div class="panel-body">
+				<div class="alert alert-info" id="lblPosition" style="font-size: 12px !important; display:none;"></div>
+				<!-- START LIST UBICATIONS -->
 
-		<div class="panel-body">
-			<div id="map-canvas"></div>
-
-			<!-- <div class="btn btn-success" onclick="set_map('Spain','Toledo')">Centrar</div> -->
-			<div class="btn btn-success" onclick="getLocation()">Geolocation</div>
-
-		</div>
+				<div class="list-group">
+					<% if @car.count == 0 %>
+						<li class="list-group-item list-group-item-danger">No tienes ubicaciones guardadas</li>
+					<% end %>
+					<% else %>
+						<% @car.each do |car| %> 
+						<%= content_tag(:div, car.coordinates , class: "list-group-item list-group-item-success")%>	
+					<% end %>
+				</div>
+				<!-- END LIST UBICATIONS -->
+			</div>
+		</div>	
 	</div>
 </div>

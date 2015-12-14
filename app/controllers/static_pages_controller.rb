@@ -1,5 +1,5 @@
 class StaticPagesController < ApplicationController
-	before_filter :authenticate_user!, :except => [:home, :about, :help]
+  before_filter :authenticate_user!, :except => [:home, :about, :help]
   def home
   end
 
@@ -10,9 +10,20 @@ class StaticPagesController < ApplicationController
   end
 
   def maps
+    @car = User.find_by(email: current_user.email).car
   end
 
   def account
+  end
+
+  def coords
+    # current_user.email
+    mail = current_user.email
+    @user = User.find_by(email: mail)
+    @car = @user.car
+    @car.update({coordinates: params[:coord]})
+
+    render "maps"
   end
   
 end
