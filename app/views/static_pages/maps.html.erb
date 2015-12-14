@@ -23,7 +23,11 @@ function set_map_Location(position){
  	map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
  	
  	/* Add marker and infowindow */
- 	var marker = new google.maps.Marker({position: new google.maps.LatLng(position.coords.latitude, position.coords.longitude), map: map});
+ 	var marker = new google.maps.Marker(
+ 		{position: new google.maps.LatLng(position.coords.latitude, position.coords.longitude), 
+ 		 map: map,
+ 		 icon: 'https://maps.google.com/mapfiles/kml/shapes/schools_maps.png'
+ 		});
  	var infowindow = new google.maps.InfoWindow;
  	/* END */
  	latlng = {lat: parseFloat(position.coords.latitude), lng: parseFloat(position.coords.longitude)};
@@ -86,9 +90,9 @@ function createMarker(latlng, name, html) {
  			if (results[1]) {
  				map.setZoom(15);
  				address = results[0].formatted_address;
- 				infowindow.setContent(results[0].formatted_address);
+ 				infowindow.setContent(address);
 				// Show marker in map
-				changeLabel(results[0].formatted_address);
+				changeLabel(address);
 			} else {
 				window.alert('No results found');
 			}
@@ -151,8 +155,9 @@ $(document).ready(getLocation());
 						<li class="list-group-item list-group-item-danger">No tienes ubicaciones guardadas</li>
 					<% end %>
 					<% else %>
-						<% @car.each do |car| %> 
-						<%= content_tag(:div, car.coordinates , class: "list-group-item list-group-item-success")%>	
+						<% @car.each do |car| %>
+						<li class="list-group-item list-group-item-success small"><b><%= car.description %>:</b> <%= car.address %></li>
+						
 					<% end %>
 				</div>
 				<!-- END LIST UBICATIONS -->
