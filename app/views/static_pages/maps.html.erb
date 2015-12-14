@@ -6,6 +6,7 @@
  	var latlng = null;
  	var infowindow = new google.maps.InfoWindow({size: new google.maps.Size(150,50)});
  	var coords = null;
+ 	var address = null;
 
  function setCoords(newCoords){
  	coords = newCoords;
@@ -84,6 +85,7 @@ function createMarker(latlng, name, html) {
  		if (status === google.maps.GeocoderStatus.OK) {
  			if (results[1]) {
  				map.setZoom(15);
+ 				address = results[0].formatted_address;
  				infowindow.setContent(results[0].formatted_address);
 				// Show marker in map
 				changeLabel(results[0].formatted_address);
@@ -101,7 +103,7 @@ function createMarker(latlng, name, html) {
 
 function saveLocation(){
 	if(coords!=null){
-		window.open("coords?&coord="+coords,"_self");
+		window.open("coords?&coord="+coords+"&address="+address,"_self");
 	}
 	else{
 		$('#alertCoord').show();
