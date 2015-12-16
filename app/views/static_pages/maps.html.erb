@@ -1,46 +1,52 @@
  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAVdlyqpDfn1sXmYcY9WJS4cfU0jnkIWao"></script>
  <script type="text/javascript">
  	// VARIABLES
- 	var map = null;
- 	var marker2 = null;
+ 	var map;
+ 	var markerUserClick = null;
+ 	var markerDB = [];
+ 	var marker = null;
+ 	var markerCar = null;
  	var latlng = null;
  	var infowindow = new google.maps.InfoWindow({size: new google.maps.Size(150,50)});
  	var coords = null;
  	var address = null;
-
- function setCoords(newCoords){
- 	coords = newCoords;
- }
-
-function set_map_Location(position){
-
- 	/* Create map */
- 	var mapOptions = {
- 		center: new google.maps.LatLng(position.coords.latitude,position.coords.longitude),
- 		zoom: 17,
- 		mapTypeId: google.maps.MapTypeId.ROADMAP
- 	};
- 	map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
- 	
- 	/* Add marker and infowindow */
- 	var marker = new google.maps.Marker(
- 		{position: new google.maps.LatLng(position.coords.latitude, position.coords.longitude), 
- 		 map: map,
- 		 icon: 'https://maps.google.com/mapfiles/kml/shapes/schools_maps.png'
- 		});
- 	var infowindow = new google.maps.InfoWindow;
- 	/* END */
- 	latlng = {lat: parseFloat(position.coords.latitude), lng: parseFloat(position.coords.longitude)};
- 	
- 	/* Locate position */
  	var geocoder = new google.maps.Geocoder;
- 	geocoder.geocode({'location': latlng}, function(results, status) {
- 		if (status === google.maps.GeocoderStatus.OK) {
- 			if (results[1]) {
- 				map.setZoom(15);
- 				infowindow.setContent(results[0].formatted_address);
-					// Show marker in map
-					// infowindow.open(map, marker);
+ 	
+ 	function setMarkerDB(marker){
+ 		markerDB.push(marker);
+ 	}
+
+ 	function setCoords(newCoords){
+ 		coords = newCoords;
+ 	}
+
+ 	function clearMarkerCar(){
+ 		markerCar.setMap(null);
+ 	}
+
+ 	function set_map_Location(position){
+ 		/* Create map */
+ 		var mapOptions = {
+ 			center: new google.maps.LatLng(position.coords.latitude,position.coords.longitude),
+ 			zoom: 17,
+ 			mapTypeId: google.maps.MapTypeId.ROADMAP
+ 		};
+ 		map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+
+ 		/* Add markerHome with infowindow */
+ 		var markerHome = new google.maps.Marker(
+ 			{position: new google.maps.LatLng(position.coords.latitude, position.coords.longitude), 
+ 				map: map,
+ 				icon: 'https://maps.google.com/mapfiles/kml/shapes/schools_maps.png'
+ 			});
+ 		latlng = {lat: parseFloat(position.coords.latitude), lng: parseFloat(position.coords.longitude)};
+ 		
+ 		/* Locate user position */
+ 		geocoder.geocode({'location': latlng}, function(results, status) {
+ 			if (status === google.maps.GeocoderStatus.OK) {
+ 				if (results[1]) {
+ 					map.setZoom(15);
+ 					infowindow.setContent(results[0].formatted_address);
 				} else {
 					window.alert('No results found');
 				}
@@ -49,82 +55,128 @@ function set_map_Location(position){
 			}
 		});
 
- 	/* Listeners */
- 	google.maps.event.addListener(marker, 'click', function(){infowindow.open(map,marker);});
- 	google.maps.event.addListener(map, 'click', function(event) {
-	
-	//call function to create marker
-	if (marker2) {
-		marker2.setMap(null);
-		marker2 = null;
-	}
-	setCoords(event.latLng);
-	marker2 = createMarker(event.latLng, "name", "<b>Location</b><br>"+event.latLng);
-});
-
- }
-
- function getLocation() {
- 	if (navigator.geolocation) {
- 		coords = null;
- 		navigator.geolocation.getCurrentPosition(set_map_Location);
- 	} else {
- 		x.innerHTML = "Geolocation is not supported by this browser.";
+ 		/* Listeners for map, markerHome and click */
+ 		google.maps.event.addListener(markerHome, 'click', function(){infowindow.open(map,markerHome);});
+ 		google.maps.event.addListener(map, 'click', function(event) {
+ 			if (markerUserClick) {
+ 				markerUserClick.setMap(null);
+ 				markerUserClick = null;
+ 			}
+ 			setCoords(event.latLng);
+ 			createMarkerLatLng(event.latLng);
+ 		});
  	}
- }
 
-// Change label on map click with street location
-function changeLabel(address){
-	lblPosition = document.getElementById('lblPosition');
-	lblPosition.innerHTML = address;
-	$('#lblPosition').show();
-}
+ 	function getLocation() {
+ 		if (navigator.geolocation) {
+ 			coords = null;
+ 			navigator.geolocation.getCurrentPosition(set_map_Location);
+ 		} else {
+ 			x.innerHTML = "Geolocation is not supported by this browser.";
+ 		}
+ 	}
 
- // A function to create the marker and set up the event window function 
-function createMarker(latlng, name, html) {
-	var contentString = html;
- 	var geocoder = new google.maps.Geocoder;
- 	var marker = new google.maps.Marker({position: latlng, map: map, label: 'A', zIndex: Math.round(latlng.lat()*-100000)<<5});
- 	geocoder.geocode({'location': latlng}, function(results, status) {
- 		if (status === google.maps.GeocoderStatus.OK) {
- 			if (results[1]) {
- 				map.setZoom(15);
- 				address = results[0].formatted_address;
- 				infowindow.setContent(address);
-				// Show marker in map
-				changeLabel(address);
+	// Change label on map click with street location
+	function changeLabel(address){
+		lblPosition = document.getElementById('lblPosition');
+		lblPosition.innerHTML = address;
+		$('#lblPosition').show();
+	}
+
+	 // A function to create the marker and set up the event window function 
+	function createMarkerLatLng(latlng, option) {
+		markerUserClick = new google.maps.Marker({position: latlng, label: "A", map: map, zIndex: Math.round(latlng.lat()*-100000)<<5});
+		geocoder.geocode({'location': latlng}, function(results, status) {
+			if (status === google.maps.GeocoderStatus.OK) {
+				if (results[1]) {
+					map.setZoom(15);
+					address = results[0].formatted_address;
+					infowindow.setContent(results[0].formatted_address);
+					infowindow.open(map, markerUserClick);
+				} else {
+					window.alert('No results found');
+				}
 			} else {
-				window.alert('No results found');
+				window.alert('Geocoder failed due to: ' + status);
 			}
-		} else {
-			window.alert('Geocoder failed due to: ' + status);
+		});
+		google.maps.event.trigger(markerUserClick, 'click');
+	}
+
+	function saveLocation(){
+		if(coords!=null){
+			window.open("coords?&coord="+coords+"&address="+address,"_self");
 		}
-	});
-
- 	google.maps.event.trigger(marker, 'click');
- 	return marker;
- }
-
-function saveLocation(){
-	if(coords!=null){
-		window.open("coords?&coord="+coords+"&address="+address,"_self");
-	}
-	else{
-		$('#alertCoord').show();
+		else{
+			$('#alertCoord').show();
+		}
 	}
 
-}
+	function addMarkerDB(address) {
+		if (markerUserClick) {
+			markerUserClick.setMap(null);
+			markerUserClick = null;
+		}
+		geocoder.geocode({'address': address}, function(results, status) {
+			if (status === google.maps.GeocoderStatus.OK) {
+				marker = new google.maps.Marker({
+					map: map,
+					draggable: true,
+					position: results[0].geometry.location
+				});
+				setMarkerDB(marker)
+			} else {
+				alert('Geocode was not successful for the following reason: ' + status);
+			}
+		});
+	}
 
-function getAdress(latlng){
+	function addMarkerCar(address){
+		clearMarkers();
+		if (markerCar) {
+ 				markerCar.setMap(null);
+ 				markerCar = null;
+ 			}
+		geocoder.geocode({'address': address}, function(results, status) {
+			if (status === google.maps.GeocoderStatus.OK) {
+				markerCar = new google.maps.Marker({
+					map: map,
+					draggable: true,
+					position: results[0].geometry.location
+				});
+				map.panTo(markerCar.getPosition());
+				location.href = "#";
+				location.href = "#map-canvas";
+			} else {
+				alert('Geocode was not successful for the following reason: ' + status);
+			}
+		});
+	}
 
-}
+	function setMapOnAll() {
+	  for (var i = 0; i < markerDB.length; i++) {
+	    markerDB[i].setMap(map);
+	  }
+	}
 
-$(document).ready(getLocation());
+	function clearMarkers(){
+		for (var i = 0; i < markerDB.length; i++) {
+		    markerDB[i].setMap(null);
+		}
+		if (markerCar){
+			markerCar.setMap(null);
+			markerCar = null;
+		}
+		if (markerUserClick) {
+			markerUserClick.setMap(null);
+			markerUserClick = null;
+		}
+	}	
+
 
 </script>
 
-<div class="col-xs-12 column jumbotron fixed-top">
-	<div class="col-xs-9 column">
+<div class="jumbotron fixed-top">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title"><span class="fa fa-map-marker" aria-hidden="true" style="margin-right: 10px"></span>Mi mapa</h3>
@@ -132,16 +184,18 @@ $(document).ready(getLocation());
 			<div class="panel-body">
 				<div class="alert alert-danger alert-dismissible" role="alert" id="alertCoord" style="display:none;"	>
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				 	<strong>¡Error!</strong> Selecciona una ubicación antes de guardar.
+					<strong>¡Error!</strong> Selecciona una ubicación antes de guardar.
 				</div>
- 
+
 				<div id="map-canvas"></div>
+				<script type="text/javascript">getLocation()</script>
 				<div class="btn btn-success" onclick="getLocation()">Centrar</div>
 				<div class="btn btn-success" onclick="saveLocation()">Guardar marcador</div>
+				<div class="btn btn-success" onclick="clearMarkers()">Limpiar mapa</div>
+				<div class="btn btn-success" onclick="setMapOnAll()">Mostrar ubicaciones</div>
 			</div>
 		</div>
-	</div>
-	<div class="col-xs-3 column">
+	
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title"><span class="fa fa-car" aria-hidden="true" style="margin-right: 10px"></span>Mis ubicaciones</h3>
@@ -150,16 +204,21 @@ $(document).ready(getLocation());
 				<div class="alert alert-info" id="lblPosition" style="font-size: 12px !important; display:none;"></div>
 				<!-- START LIST UBICATIONS -->
 
-				<div class="list-group">
+				<div class="list-group col-xs-5 column">
 					<% if @car.count == 0 %>
 						<li class="list-group-item list-group-item-danger">No tienes ubicaciones guardadas</li>
 					<% end %>
 					<% else %>
 						<% @car.each do |car| %>
-						<li class="list-group-item list-group-item-success small"><b><%= car.description %>:</b> <%= car.address %></li>
-						
-					<% end %>
+							<li class="list-group-item list-group-item-info">
+								<i class="fa fa-car"> <%= car.description.upcase %></i>
+								<button type="button" class="list-group-item" style="margin-bottom: 12px;" onclick="addMarkerCar('<%= car.address %>')" ><%= car.address %></button>
+								<script type="text/javascript">addMarkerDB('<%= car.address %>')</script>
+							</li>
+						<% end %>
+						<script type="text/javascript">setMapOnAll()</script>
 				</div>
+
 				<!-- END LIST UBICATIONS -->
 			</div>
 		</div>	
