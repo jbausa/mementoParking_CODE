@@ -210,59 +210,25 @@
 			<div class="panel-body">
 				<div class="alert alert-info" id="lblPosition" style="font-size: 12px !important; display:none;"></div>
 				<!-- START LIST UBICATIONS -->
-
 				<ul class="list-unstyled well form-group col-xs-5 column">
 					<% if @car.count == 0 %>
 					<li class="label label-danger">No tienes ubicaciones guardadas</li>
 					<% end %>
 					<% else %>
-						<% @car.each do |car| %>
-							<!--<li>
-								<i class="fa fa-car"> <%= car.description.upcase %></i>
-								<button type="button" class="list-group-item" style="margin-bottom: 12px;" onclick="addMarkerCar('<%= car.address %>')" ><%= car.address %></button>
-								<script type="text/javascript">addMarkerDB('<%= car.address %>')</script>
-							</li>
-							<li>
-								
-							</li>-->
-							<li class="custom-list">
-								<h3><span class="label label-primary"><i class="fa fa-car"> <%= car.description.upcase %></i></span></h3>
-								<label type="radio" for="<%= car.description %>" class="radio-inline" onclick="addMarkerCar('<%= car.address %>')" >
-									<%= car.address %>
-								</label>
+					<% @car.each_with_index do |car, index| %>
+						<% if index != 0 %> <li class="separator"/>	<% end %>
+					<li>
+						<h3><span class="label label-primary"><i class="fa fa-car label-car">&nbsp;&nbsp;<%= car.description.upcase %></i></span></h3>
+						<label type="radio" for="<%= car.description %>" class="radio-inline" onclick="addMarkerCar('<%= car.address %>')" >
+							<%= car.address %>
+						</label>
 
-								<script type="text/javascript">addMarkerDB('<%= car.address %>')</script>
-							</li>
-								<!--<div class="form-group">
-									<div class="list-unstyled well form-group col-xs-5 column">
-										<label for="Radios_Apple" class="radio-inline">
-											<input type="radio" value="Apple" id="Radios_Apple" name="Radios">
-											Apple
-										</label> 
-										<label for="Radios_Orange" class="radio-inline">
-											<input type="radio" value="Orange" id="Radios_Orange" name="Radios">
-											Orange
-										</label> 
-										<label for="Radios_Bananas" class="radio-inline">
-											<input type="radio" value="Bananas" id="Radios_Bananas" name="Radios">
-											Banana
-										</label>
-										<label for="Radios_Kumquats" class="radio-inline">
-											<input type="radio" value="Kumquats" id="Radios_Kumquats" name="Radios">
-											Kumquat
-										</label> 
-									</div>
-								</div>-->
-							
-						<script type="text/javascript">setMapOnAll()</script>
-				<% end %>
-			</ul>
-				<!--</div>
+						<script type="text/javascript">addMarkerDB('<%= car.address %>')</script>
+					</li>							
+					<script type="text/javascript">setMapOnAll()</script>
+					<% end %>
+				</ul>
 				<!-- END LIST UBICATIONS -->
-
-			
-
-
 			</div>
 		</div>	
 	</div>
