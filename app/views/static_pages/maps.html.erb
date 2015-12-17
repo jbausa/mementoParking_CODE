@@ -157,6 +157,7 @@
 	  for (var i = 0; i < markerDB.length; i++) {
 	    markerDB[i].setMap(map);
 	  }
+	  clearSelectors();
 	}
 
 	function clearMarkers(){
@@ -171,9 +172,15 @@
 			markerUserClick.setMap(null);
 			markerUserClick = null;
 		}
+		clearSelectors();
 	}	
 
-
+	function clearSelectors(){
+		var elems = document.querySelectorAll(".radio-inline, .radio");	
+		[].forEach.call(elems, function(el) {
+		    el.classList.remove("checked");
+		});
+	}
 </script>
 
 <div class="jumbotron fixed-top">
@@ -204,23 +211,98 @@
 				<div class="alert alert-info" id="lblPosition" style="font-size: 12px !important; display:none;"></div>
 				<!-- START LIST UBICATIONS -->
 
-				<div class="list-group col-xs-5 column">
+				<ul class="list-unstyled well form-group col-xs-5 column">
 					<% if @car.count == 0 %>
-						<li class="list-group-item list-group-item-danger">No tienes ubicaciones guardadas</li>
+					<li class="label label-danger">No tienes ubicaciones guardadas</li>
 					<% end %>
 					<% else %>
 						<% @car.each do |car| %>
-							<li class="list-group-item list-group-item-info">
+							<!--<li>
 								<i class="fa fa-car"> <%= car.description.upcase %></i>
 								<button type="button" class="list-group-item" style="margin-bottom: 12px;" onclick="addMarkerCar('<%= car.address %>')" ><%= car.address %></button>
 								<script type="text/javascript">addMarkerDB('<%= car.address %>')</script>
 							</li>
-						<% end %>
-						<script type="text/javascript">setMapOnAll()</script>
-				</div>
+							<li>
+								
+							</li>-->
+							<li class="custom-list">
+								<h3><span class="label label-primary"><i class="fa fa-car"> <%= car.description.upcase %></i></span></h3>
+								<label type="radio" for="<%= car.description %>" class="radio-inline" onclick="addMarkerCar('<%= car.address %>')" >
+									<%= car.address %>
+								</label>
 
+								<script type="text/javascript">addMarkerDB('<%= car.address %>')</script>
+							</li>
+								<!--<div class="form-group">
+									<div class="list-unstyled well form-group col-xs-5 column">
+										<label for="Radios_Apple" class="radio-inline">
+											<input type="radio" value="Apple" id="Radios_Apple" name="Radios">
+											Apple
+										</label> 
+										<label for="Radios_Orange" class="radio-inline">
+											<input type="radio" value="Orange" id="Radios_Orange" name="Radios">
+											Orange
+										</label> 
+										<label for="Radios_Bananas" class="radio-inline">
+											<input type="radio" value="Bananas" id="Radios_Bananas" name="Radios">
+											Banana
+										</label>
+										<label for="Radios_Kumquats" class="radio-inline">
+											<input type="radio" value="Kumquats" id="Radios_Kumquats" name="Radios">
+											Kumquat
+										</label> 
+									</div>
+								</div>-->
+							
+						<script type="text/javascript">setMapOnAll()</script>
+				<% end %>
+			</ul>
+				<!--</div>
 				<!-- END LIST UBICATIONS -->
+
+			
+
+
 			</div>
 		</div>	
 	</div>
 </div>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+	//When checkboxes/radios checked/unchecked, toggle background color
+	$('.form-group').on('click','input[type=radio]',function() {
+		$(this).closest('.form-group').find('.radio-inline, .radio').removeClass('checked');
+		$(this).closest('.radio-inline, .radio').addClass('checked');
+	});
+	$('.form-group').on('click','label[type=radio]',function() {
+		$(this).closest('.form-group').find('.radio-inline, .radio').removeClass('checked');
+		$(this).closest('.radio-inline, .radio').addClass('checked');
+	});
+	$('.form-group').on('click','input[type=checkbox]',function() {
+		$(this).closest('.checkbox-inline, .checkbox').toggleClass('checked');
+	});
+
+	//Show additional info text box when relevant checkbox checked
+	$('.additional-info-wrap input[type=checkbox]').click(function() {
+		if($(this).is(':checked')) {
+			$(this).closest('.additional-info-wrap').find('.additional-info').removeClass('hide').find('input,select').removeAttr('disabled');
+		}
+		else {
+			$(this).closest('.additional-info-wrap').find('.additional-info').addClass('hide').find('input,select').val('').attr('disabled','disabled');
+		}
+		
+	});
+	//Show additional info text box when relevant radio checked
+	$('input[type=radio]').click(function() {
+		$(this).closest('.form-group').find('.additional-info-wrap .additional-info').addClass('hide').find('input,select').val('').attr('disabled','disabled');
+		if($(this).closest('.additional-info-wrap').length > 0) {
+			$(this).closest('.additional-info-wrap').find('.additional-info').removeClass('hide').find('input,select').removeAttr('disabled');
+		}		
+	});
+
+}); 
+
+//See more at: http://www.avtex.com/blog/2015/02/10/bootstrap-radio-buttons-and-checkboxes-in-columns-with-contextual-text-fields/#sthash.lnw1shBp.dpuf
+</script>
