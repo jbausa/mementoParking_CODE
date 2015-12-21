@@ -121,7 +121,7 @@
 		}
 	}
 
-	function addMarkerDB(address) {
+	function addMarkerDB(address, description) {
 		if (markerUserClick) {
 			markerUserClick.setMap(null);
 			markerUserClick = null;
@@ -135,7 +135,7 @@
 					position: results[0].geometry.location
 				});
 				var infoWindowDB = new google.maps.InfoWindow({size: new google.maps.Size(150,50)});
-				infoWindowDB.setContent(results[0].formatted_address);
+				infoWindowDB.setContent("<b>"+description+":</b><br>"+ results[0].formatted_address);
 				setMarkerDB(markerDB);
 				google.maps.event.addListener(markerDB, 'click', function(){infoWindowDB.open(map,markerDB);});
 			} else {
@@ -249,7 +249,7 @@
 								<h3><span class="label label-primary"><i class="fa fa-car label-car">&nbsp;&nbsp;<%= car.description.upcase %></i></span></h3>
 								<label type="radio" for="<%= car.description %>" class="radio-inline" onclick="addMarkerCar('<%= car.address %>', this.id)" id="<%= car.id %>"> <%= car.address %> </label>
 
-								<script type="text/javascript">addMarkerDB('<%= car.address %>')</script>
+								<script type="text/javascript">addMarkerDB('<%= car.address %>', '<%= car.description %>')</script>
 							</li>							
 							<script type="text/javascript">setMapOnAll()</script>
 							<% end %>
