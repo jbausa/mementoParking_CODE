@@ -51,13 +51,39 @@ h2, .h2 {
   font-size: 20px !important;
 }
 
-/* Fixed for maps canvas */
+/* Fixed well margins*/
+.well-fixed{
+  margin-right: 10px !important;
+  margin-left: 10px !important;
+}
 
+/* Button fixed margins */
+.btn-fixed{
+  margin-top: 10px;
+  width: 100%;
+  margin-left: 10px !important;
+}
+
+/* Vertical Divider */
+.row.vdivide [class*='col-']:not(:last-child):after {
+  background: #ffffff;
+  width: 1px;
+  content: "";
+  display:block;
+  position: absolute;
+  top:0;
+  bottom: 0;
+  right: 0;
+  min-height: 70px;
+}
+
+/* Fixed for maps canvas */
 #map-canvas {
  display: block;
  width: 100%;
  height: 400px;
  margin-bottom: 10px;
+ border: 1px solid #ffffff;
 }
 
 section {
@@ -127,7 +153,8 @@ textarea {
 
 /* Fixed Label Car Description */
 .label-car{
-  width: 95% !important;
+  width: 100%;
+  margin-right: -20px;
 }
 
 /* Fixed margin for Font-Awesome icons */

@@ -11,6 +11,11 @@
  	var coords = null;
  	var address = null;
  	var geocoder = new google.maps.Geocoder;
+ 	var carId = null;
+
+ 	function setCarId(id){
+ 		carId = id;
+ 	}
  	
  	function setMarkerDB(marker){
  		markerDB.push(marker);
@@ -42,9 +47,10 @@
  		latlng = {lat: parseFloat(position.coords.latitude), lng: parseFloat(position.coords.longitude)};
  		
  		/* Locate user position */
- 		geocoder.geocode({'location': latlng}, function(results, status) {
+ 		var prueba = {'location': latlng};
+ 		geocoder.geocode(prueba, function(results, status) {
  			if (status === google.maps.GeocoderStatus.OK) {
- 				if (results[1]) {
+ 				if (results[0]) {
  					map.setZoom(15);
  					infowindow.setContent(results[0].formatted_address);
 				} else {
@@ -84,14 +90,14 @@
 	}
 
 	 // A function to create the marker and set up the event window function 
-	function createMarkerLatLng(latlng, option) {
+	function createMarkerLatLng(latlng) {
 		markerUserClick = new google.maps.Marker({position: latlng, label: "A", map: map, zIndex: Math.round(latlng.lat()*-100000)<<5});
 		geocoder.geocode({'location': latlng}, function(results, status) {
 			if (status === google.maps.GeocoderStatus.OK) {
-				if (results[1]) {
+				if (results[0]) {
 					map.setZoom(15);
 					address = results[0].formatted_address;
-					infowindow.setContent(results[0].formatted_address);
+					infowindow.setContent("<b>Nueva ubicación:</b><br>" + results[0].formatted_address);
 					infowindow.open(map, markerUserClick);
 				} else {
 					window.alert('No results found');
@@ -104,11 +110,14 @@
 	}
 
 	function saveLocation(){
-		if(coords!=null){
-			window.open("coords?&coord="+coords+"&address="+address,"_self");
-		}
-		else{
+		if(coords==null){
 			$('#alertCoord').show();
+		}
+		if(carId==null){
+			$('#alertCar').show();
+		}
+		if(coords!=null && carId!=null) {
+			window.open("coords?&coord="+coords+"&address="+address+"&carId="+carId+"&currentUser="+"CURRENTUSER","_self");
 		}
 	}
 
@@ -117,21 +126,26 @@
 			markerUserClick.setMap(null);
 			markerUserClick = null;
 		}
+
 		geocoder.geocode({'address': address}, function(results, status) {
 			if (status === google.maps.GeocoderStatus.OK) {
-				marker = new google.maps.Marker({
+				var markerDB = new google.maps.Marker({
 					map: map,
 					draggable: true,
 					position: results[0].geometry.location
 				});
-				setMarkerDB(marker)
+				var infoWindowDB = new google.maps.InfoWindow({size: new google.maps.Size(150,50)});
+				infoWindowDB.setContent(results[0].formatted_address);
+				setMarkerDB(markerDB);
+				google.maps.event.addListener(markerDB, 'click', function(){infoWindowDB.open(map,markerDB);});
 			} else {
 				alert('Geocode was not successful for the following reason: ' + status);
 			}
 		});
 	}
 
-	function addMarkerCar(address){
+	function addMarkerCar(address, idCar){
+		setCarId(idCar);
 		clearMarkers();
 		if (markerCar) {
  				markerCar.setMap(null);
@@ -144,6 +158,11 @@
 					draggable: true,
 					position: results[0].geometry.location
 				});
+				var infoWindowCar = new google.maps.InfoWindow({size: new google.maps.Size(150,50)});
+				infoWindowCar.setContent(results[0].formatted_address);
+				google.maps.event.addListener(markerCar, 'click', function(){infoWindowCar.open(map,markerCar);});
+
+
 				map.panTo(markerCar.getPosition());
 				location.href = "#";
 				location.href = "#map-canvas";
@@ -173,6 +192,7 @@
 			markerUserClick = null;
 		}
 		clearSelectors();
+		setCarId == null;
 	}	
 
 	function clearSelectors(){
@@ -189,17 +209,11 @@
 				<h3 class="panel-title"><span class="fa fa-map-marker" aria-hidden="true" style="margin-right: 10px"></span>Mi mapa</h3>
 			</div>
 			<div class="panel-body">
-				<div class="alert alert-danger alert-dismissible" role="alert" id="alertCoord" style="display:none;"	>
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<strong>¡Error!</strong> Selecciona una ubicación antes de guardar.
+				<div class="well">
+					<div id="map-canvas"></div>
 				</div>
-
-				<div id="map-canvas"></div>
 				<script type="text/javascript">getLocation()</script>
-				<div class="btn btn-primary" onclick="getLocation()"><span class="glyphicon glyphicon-screenshot fa-fixed"></span>Centrar</div>
-				<div class="btn btn-primary" onclick="saveLocation()"><span class="fa fa-map-marker fa-fixed"></span>Guardar marcador</div>  
-				<div class="btn btn-primary" onclick="clearMarkers()"><span class="fa fa-map-o fa-fixed"></span>Limpiar mapa</div>
-				<div class="btn btn-primary" onclick="setMapOnAll()"><span class="fa fa-eye fa-fixed"></span>Mostrar ubicaciones</div>
+				
 			</div>
 		</div>
 	
@@ -208,27 +222,48 @@
 				<h3 class="panel-title"><span class="fa fa-car" aria-hidden="true" style="margin-right: 10px"></span>Mis ubicaciones</h3>
 			</div>	
 			<div class="panel-body">
+				<!-- INFO, WARNING, ALERT AND ERROR PANELS -->
 				<div class="alert alert-info" id="lblPosition" style="font-size: 12px !important; display:none;"></div>
-				<!-- START LIST UBICATIONS -->
-				<ul class="list-unstyled well form-group col-xs-5 column">
-					<% if @car.count == 0 %>
-					<li class="label label-danger">No tienes ubicaciones guardadas</li>
-					<% end %>
-					<% else %>
-					<% @car.each_with_index do |car, index| %>
-						<% if index != 0 %> <li class="separator"/>	<% end %>
-					<li>
-						<h3><span class="label label-primary"><i class="fa fa-car label-car">&nbsp;&nbsp;<%= car.description.upcase %></i></span></h3>
-						<label type="radio" for="<%= car.description %>" class="radio-inline" onclick="addMarkerCar('<%= car.address %>')" >
-							<%= car.address %>
-						</label>
+				<div class="alert alert-danger alert-dismissible" role="alert" id="alertCoord" style="display:none;"	>
+					<button type="button" class="close" onclick="$(this).parent().hide()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<strong>¡Error!</strong> Selecciona una ubicación antes de guardar.
+				</div>
+				<div class="alert alert-danger alert-dismissible" role="alert" id="alertCar" style="display:none;"	>
+					<button type="button" class="close" onclick="$(this).parent().hide()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<strong>¡Error!</strong> Selecciona un coche antes de guardar.
+				</div>
+				<!-- END OF PANELS -->
 
-						<script type="text/javascript">addMarkerDB('<%= car.address %>')</script>
-					</li>							
-					<script type="text/javascript">setMapOnAll()</script>
-					<% end %>
-				</ul>
+				<!-- START LIST UBICATIONS -->
+				<div class="row vdivide well well-fixed">
+					<div class="col-md-9">
+						<ul class="list-unstyled  form-group">
+							<% @car = User.find_by(email: current_user.email).car %>
+							<% if @car.count == 0 %>
+							<li class="label label-danger">No tienes ubicaciones guardadas</li>
+							<% end %>
+							<% else %>
+							<% @car.each_with_index do |car, index| %>
+							<% if index != 0 %> <li class="separator"/>	<% end %>
+							<li>
+								<h3><span class="label label-primary"><i class="fa fa-car label-car">&nbsp;&nbsp;<%= car.description.upcase %></i></span></h3>
+								<label type="radio" for="<%= car.description %>" class="radio-inline" onclick="addMarkerCar('<%= car.address %>', this.id)" id="<%= car.id %>"> <%= car.address %> </label>
+
+								<script type="text/javascript">addMarkerDB('<%= car.address %>')</script>
+							</li>							
+							<script type="text/javascript">setMapOnAll()</script>
+							<% end %>
+						</ul>
+					</div>
+
 				<!-- END LIST UBICATIONS -->
+					<div class="col-md-3 text-center">
+						<div class="btn btn-primary btn-fixed" onclick="getLocation()"><span class="glyphicon glyphicon-screenshot fa-fixed"></span>Centrar</div>
+						<div class="btn btn-primary btn-fixed" onclick="saveLocation()"><span class="fa fa-map-marker fa-fixed"></span>Guardar marcador</div>  
+						<div class="btn btn-primary btn-fixed" onclick="clearMarkers()"><span class="fa fa-map-o fa-fixed"></span>Limpiar mapa</div>
+						<div class="btn btn-primary btn-fixed" onclick="setMapOnAll()"><span class="fa fa-eye fa-fixed"></span>Mostrar ubicaciones</div>
+					</div>
+				</div>				
 			</div>
 		</div>	
 	</div>
@@ -237,6 +272,8 @@
 <script type="text/javascript">
 
 $(document).ready(function() {
+
+
 	//When checkboxes/radios checked/unchecked, toggle background color
 	$('.form-group').on('click','input[type=radio]',function() {
 		$(this).closest('.form-group').find('.radio-inline, .radio').removeClass('checked');
@@ -245,9 +282,6 @@ $(document).ready(function() {
 	$('.form-group').on('click','label[type=radio]',function() {
 		$(this).closest('.form-group').find('.radio-inline, .radio').removeClass('checked');
 		$(this).closest('.radio-inline, .radio').addClass('checked');
-	});
-	$('.form-group').on('click','input[type=checkbox]',function() {
-		$(this).closest('.checkbox-inline, .checkbox').toggleClass('checked');
 	});
 
 	//Show additional info text box when relevant checkbox checked

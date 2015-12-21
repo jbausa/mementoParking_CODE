@@ -20,7 +20,7 @@ class StaticPagesController < ApplicationController
     # current_user.email
     mail = current_user.email
     @user = User.find_by(email: mail)
-    @car = @user.car
+    @car = @user.car.find(params[:carId])
     @car.update({coordinates: params[:coord], address: params[:address]})
     render "maps"
   end
