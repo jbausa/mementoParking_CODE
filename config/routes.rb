@@ -24,7 +24,9 @@ Rails.application.routes.draw do
 
   get 'car' => 'static_pages#car'
 
-  get 'createCar' => 'static_pages#createCar'
+  get 'editCar' => 'static_pages#editCar'
+
+  get 'newCar' => 'static_pages#newCar'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

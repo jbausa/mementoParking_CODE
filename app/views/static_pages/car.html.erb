@@ -1,9 +1,21 @@
 <script type="text/javascript">
+	var selectedCarId = "null";
+	var selectedOption = "null";
 	var selectedCar = null;
 
-	function setSelectedCar(selected){
-		selectedCar = document.getElementById("optionList").options[document.getElementById("optionList").selectedIndex ].text;
-		if(selected=="null"){
+	function setSelectedCar(descriptionCar){
+		selectedCar = descriptionCar;
+	}
+
+	function setSelectedOption(option){
+		selectedOption = option;
+	}
+
+	function setselectedCarId(selected){
+		setSelectedOption(selected);
+		//selectedCarId = document.getElementById("optionList").options[document.getElementById("optionList").selectedIndex ].text;
+		selectedCarId = document.getElementById("optionList").options[document.getElementById("optionList").selectedIndex ].value;
+		if(selectedOption=="null"){
 			document.getElementById('description-car').style.display = 'none';	
 		}
 		else{
@@ -13,13 +25,30 @@
 	}
 
 	function saveChanges(){
-		var newDescription = document.getElementById('newDescription').value;
-		window.open("createCar?&newdescription="+newDescription.toUpperCase()+"&description="+selectedCar,"_self");
+		if(selectedOption == "null"){
+			alert("Null");
+		}
+		else if(selectedOption =="new"){
+			var newDescription = document.getElementById('newDescription').value;
+			alert("New")
+			//window.open("newCar?&newdescription="+newDescription.toUpperCase()+"&description="+selectedCarId,"_self");
+		}
+		else{
+			var newDescription = document.getElementById('newDescription').value;
+			alert("Edit");
+			//window.open("editCar?&newdescription="+newDescription.toUpperCase()+"&description="+selectedCarId,"_self");
+			
+			window.open("editCar?&newdescription="+newDescription.toUpperCase()+"&description="+selectedCarId,"_self");
+
+		}
 	}
 
 	$(document).ready(function() {
+
+		setselectedCarId("null");
 		$('.form-control').on('change', function(){
-			setSelectedCar($(this).find("option:selected").val());
+			setSelectedCar($(this).find("option:selected").text());
+			setselectedCarId($(this).find("option:selected").val());
 		});
 	});
 
@@ -38,7 +67,8 @@
 					<select id="optionList" class="form-control">
 						<option value="null">--</option>
 						<% @carList.each do |carList| %>
-						<option value="<%= carList.description %>"><%= carList.description.upcase %></option>
+						<!--<option value="<%= carList.description %>"><%= carList.description.upcase %></option>-->
+						<option value="<%= carList._id %>"><%= carList.description.upcase %></option>
 						<% end %>
 						<option disabled role="separator">
 						<option value="new">Crear nuevo coche</option>
