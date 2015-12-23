@@ -22,6 +22,10 @@ Rails.application.routes.draw do
 
   get 'coords' => 'static_pages#coords'
 
+  get 'car' => 'static_pages#car'
+
+  get 'createCar' => 'static_pages#createCar'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

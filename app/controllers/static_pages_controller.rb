@@ -24,5 +24,17 @@ class StaticPagesController < ApplicationController
     @car.update({coordinates: params[:coord], address: params[:address]})
     render "maps"
   end
+
+  def createCar
+    mail = current_user.email
+    @user = User.find_by(email: mail)
+    @car = @user.car.find_by(description: params[:description])
+    @car.update({description: params[:newdescription]})
+    render "car"
+  end
+
+  def updateCar
+    
+  end
   
 end

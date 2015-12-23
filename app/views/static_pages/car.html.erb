@@ -1,0 +1,65 @@
+<script type="text/javascript">
+	var selectedCar = null;
+
+	function setSelectedCar(selected){
+		selectedCar = document.getElementById("optionList").options[document.getElementById("optionList").selectedIndex ].text;
+		if(selected=="null"){
+			document.getElementById('description-car').style.display = 'none';	
+		}
+		else{
+			document.getElementById('description-car').style.display = 'block';
+			document.getElementById('description').innerHTML = "&nbsp&nbsp" + selectedCar;
+		}
+	}
+
+	function saveChanges(){
+		var newDescription = document.getElementById('newDescription').value;
+		window.open("createCar?&newdescription="+newDescription.toUpperCase()+"&description="+selectedCar,"_self");
+	}
+
+	$(document).ready(function() {
+		$('.form-control').on('change', function(){
+			setSelectedCar($(this).find("option:selected").val());
+		});
+	});
+
+</script>
+
+<div class="jumbotron fixed-top">	
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title"><span class="fa fa-carList" aria-hidden="true" style="margin-right: 10px"></span>Mis coches</h3>
+		</div>	
+		<div class="panel-body">
+			<div class="row vdivide well well-fixed">
+				<div class="col-md-9">
+					<h3><span class="label label-primary"><i class="fa fa-pencil-square-o">&nbsp;&nbsp;Editar Coche:</i></span></h3>
+					<% @carList = User.find_by(email: current_user.email).car %>
+					<select id="optionList" class="form-control">
+						<option value="null">--</option>
+						<% @carList.each do |carList| %>
+						<option value="<%= carList.description %>"><%= carList.description.upcase %></option>
+						<% end %>
+						<option disabled role="separator">
+						<option value="new">Crear nuevo coche</option>
+					</select>
+					<ul id="description-car" class="list-unstyled form-group" style="margin-top:10px; display:none;">
+						<li>
+							<h3><span class="label label-primary"><i class="fa fa-car label-car" id="description" ></i></span></h3>
+							<h3><span class="label label-primary"><i class="fa fa-car label-car" id="description2" ></i></span></h3>
+						</li>
+						<li>
+							(Introduce la nueva descripción para el coche)
+							<input type="text" class="form-control" id="newDescription" placeholder="Nueva descripción" aria-describedby="basic-addon1">
+						</li>
+				</div>
+				
+				<div class="col-md-3 text-center">
+					<div class="btn btn-primary btn-fixed" onclick="saveChanges()"><span class="fa-floppy-o fa-fixed"></span>Guardar cambios</div>
+				</div>
+				
+				</div>
+					
+			</div>	
+		</div>
+	</div>

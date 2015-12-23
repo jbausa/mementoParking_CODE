@@ -237,7 +237,7 @@
 				<!-- START LIST UBICATIONS -->
 				<div class="row vdivide well well-fixed">
 					<div class="col-md-9">
-						<ul class="list-unstyled  form-group">
+						<ul class="list-unstyled form-group">
 							<% @car = User.find_by(email: current_user.email).car %>
 							<% if @car.count == 0 %>
 							<li class="label label-danger">No tienes ubicaciones guardadas</li>
