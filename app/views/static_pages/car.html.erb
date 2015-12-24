@@ -1,57 +1,59 @@
 <script type="text/javascript">
 	var selectedCarId = "null";
-	var selectedOption = "null";
+	//var selectedOption = "null";
 	var selectedCar = null;
-
-	function setSelectedCar(descriptionCar){
-		selectedCar = descriptionCar;
-	}
 
 	function setSelectedOption(option){
 		selectedOption = option;
 	}
 
-	function setselectedCarId(selected){
-		setSelectedOption(selected);
+	function setSelectedCarId(descriptionCar){
+		//setSelectedOption(selected); //BORRAR
 		selectedCarId = document.getElementById("optionList").options[document.getElementById("optionList").selectedIndex ].value;
-		if(selectedOption=="null"){
+		if(selectedCarId=="null"){
 			document.getElementById('description-car').style.display = 'none';	
 		}
 		else{
 			document.getElementById('description-car').style.display = 'block';
-			document.getElementById('description').innerHTML = "&nbsp&nbsp" + selectedCar;
+			document.getElementById('description').innerHTML = "&nbsp&nbsp" + descriptionCar;
 		}
 	}
 
 	function saveChanges(){
-		if(selectedOption == "null"){
+		if(selectedCarId == "null"){
 			$('#lblNoCarSelected').show();
 			//alert("Null");
 		}
-		else if(selectedOption =="new"){
+		else if(selectedCarId =="new"){
 			var newDescription = document.getElementById('newDescription').value;
 			alert("New");
-			//window.open("newCar?&newdescription="+newDescription.toUpperCase()+"&description="+selectedCarId,"_self");
+			window.open("newCar?&newdescription="+newDescription.toUpperCase(),"_self");
 		}
 		else{
 			var newDescription = document.getElementById('newDescription').value;
 			alert("Edit");
-			//window.open("editCar?&newdescription="+newDescription.toUpperCase()+"&description="+selectedCarId,"_self");
+			window.open("editCar?&newdescription="+newDescription.toUpperCase()+"&id="+selectedCarId,"_self");
 
 		}
 	}
 
-	function deleteCar(){
-		//selectedCarId = document.getElementById("optionList").options[document.getElementById("optionList").selectedIndex ].value;
-		alert(Borrar);
+	function removeCar(){
+		alert("Eliminar");
+		//window.open("deleteCar?&newdescription="+newDescription.toUpperCase()+"&description="+selectedCarId,"_self");
 	}
 
 	$(document).ready(function() {
-
-		setselectedCarId("null");
+		setSelectedCarId("null");
+		document.getElementById("btnRemove").disabled = true;
 		$('.form-control').on('change', function(){
-			setSelectedCar($(this).find("option:selected").text());
-			setselectedCarId($(this).find("option:selected").val());
+			//setSelectedCar($(this).find("option:selected").text());
+			setSelectedCarId($(this).find("option:selected").text());
+			if($(this).find("option:selected").val()=="null" || $(this).find("option:selected").val()=="new"){
+				document.getElementById("btnRemove").disabled = true;
+			}
+			else{
+				document.getElementById("btnRemove").disabled = false;
+			}
 		});
 	});
 
@@ -82,7 +84,6 @@
 					<ul id="description-car" class="list-unstyled form-group" style="margin-top:10px; display:none;">
 						<li>
 							<h3><span class="label label-primary"><i class="fa fa-car label-car" id="description" ></i></span></h3>
-							<h3><span class="label label-primary"><i class="fa fa-car label-car" id="description2" ></i></span></h3>
 						</li>
 						<li>
 							(Introduce la nueva descripción para el coche)
@@ -92,8 +93,7 @@
 				
 				<div class="col-md-3 text-center">
 					<div class="btn btn-primary btn-fixed" onclick="saveChanges()"><span class="fa fa-floppy-o fa-fixed"></span>Guardar cambios</div>
-
-					<div class="btn btn-danger btn-fixed" onclick="deleteCar()"><span class="fa fa-trash fa-fixed"></span>Eliminar coche</div>
+					<button class="btn btn-danger btn-fixed" onclick="removeCar()" id="btnRemove"><span class="fa fa-trash fa-fixed"></span>Eliminar coche</button>
 				</div>
 				
 				</div>
