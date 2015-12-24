@@ -13,7 +13,6 @@
 
 	function setselectedCarId(selected){
 		setSelectedOption(selected);
-		//selectedCarId = document.getElementById("optionList").options[document.getElementById("optionList").selectedIndex ].text;
 		selectedCarId = document.getElementById("optionList").options[document.getElementById("optionList").selectedIndex ].value;
 		if(selectedOption=="null"){
 			document.getElementById('description-car').style.display = 'none';	
@@ -26,21 +25,25 @@
 
 	function saveChanges(){
 		if(selectedOption == "null"){
-			alert("Null");
+			$('#lblNoCarSelected').show();
+			//alert("Null");
 		}
 		else if(selectedOption =="new"){
 			var newDescription = document.getElementById('newDescription').value;
-			alert("New")
+			alert("New");
 			//window.open("newCar?&newdescription="+newDescription.toUpperCase()+"&description="+selectedCarId,"_self");
 		}
 		else{
 			var newDescription = document.getElementById('newDescription').value;
 			alert("Edit");
 			//window.open("editCar?&newdescription="+newDescription.toUpperCase()+"&description="+selectedCarId,"_self");
-			
-			window.open("editCar?&newdescription="+newDescription.toUpperCase()+"&description="+selectedCarId,"_self");
 
 		}
+	}
+
+	function deleteCar(){
+		//selectedCarId = document.getElementById("optionList").options[document.getElementById("optionList").selectedIndex ].value;
+		alert(Borrar);
 	}
 
 	$(document).ready(function() {
@@ -60,6 +63,10 @@
 			<h3 class="panel-title"><span class="fa fa-carList" aria-hidden="true" style="margin-right: 10px"></span>Mis coches</h3>
 		</div>	
 		<div class="panel-body">
+			<div class="alert alert-danger alert-dismissible" role="alert" id="lblNoCarSelected" style="display:none;">
+				<button type="button" class="close" onclick="$(this).parent().hide()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<strong>¡Error!</strong> Selecciona y cambia las opciones de un coche antes de guardar.
+			</div>
 			<div class="row vdivide well well-fixed">
 				<div class="col-md-9">
 					<h3><span class="label label-primary"><i class="fa fa-pencil-square-o">&nbsp;&nbsp;Editar Coche:</i></span></h3>
@@ -67,7 +74,6 @@
 					<select id="optionList" class="form-control">
 						<option value="null">--</option>
 						<% @carList.each do |carList| %>
-						<!--<option value="<%= carList.description %>"><%= carList.description.upcase %></option>-->
 						<option value="<%= carList._id %>"><%= carList.description.upcase %></option>
 						<% end %>
 						<option disabled role="separator">
@@ -85,7 +91,9 @@
 				</div>
 				
 				<div class="col-md-3 text-center">
-					<div class="btn btn-primary btn-fixed" onclick="saveChanges()"><span class="fa-floppy-o fa-fixed"></span>Guardar cambios</div>
+					<div class="btn btn-primary btn-fixed" onclick="saveChanges()"><span class="fa fa-floppy-o fa-fixed"></span>Guardar cambios</div>
+
+					<div class="btn btn-danger btn-fixed" onclick="deleteCar()"><span class="fa fa-trash fa-fixed"></span>Eliminar coche</div>
 				</div>
 				
 				</div>
