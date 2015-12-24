@@ -32,7 +32,6 @@ class StaticPagesController < ApplicationController
     @user = User.find_by(email: mail)
     @car = @user.car.find_by(_id: params[:id])
     @car.update({description: params[:newdescription]})
-    params.delete(:description)
     redirect_to car_path
   end
 
@@ -44,6 +43,11 @@ class StaticPagesController < ApplicationController
   end
 
   def deleteCar
+    mail = current_user.email
+    @user = User.find_by(email: mail)
+    @car = @user.car.find_by(_id: params[:id])
+    @car.delete
+    redirect_to car_path
   end
   
 end
