@@ -10,14 +10,15 @@
 <body style="padding-top = 70px">
 	<%= render 'layouts/header' %>
 	<div class="container">
-		<%= yield %>
+    <%= flash_messages %>
+    <!--<p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>-->
+    <%= yield %>
  <!--    $(document).ready(function(){
    alert("Javascript y Jquery estan cargados.");
-    }); -->
- <!-- 		<p class="notice"><%= notice %></p>
-       	<p class="alert"><%= alert %></p> -->
-	</div>
+ }); -->
+</div>
 
-	<%= render 'layouts/footer' %>
+<%= render 'layouts/footer' %>
 </body>
 </html>

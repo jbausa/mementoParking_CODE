@@ -26,12 +26,12 @@
 		}
 		else if(selectedCarId =="new"){
 			var newDescription = document.getElementById('newDescription').value;
-			alert("New");
+			//alert("New");
 			window.open("newCar?&newdescription="+newDescription.toUpperCase(),"_self");
 		}
 		else{
 			var newDescription = document.getElementById('newDescription').value;
-			alert("Edit");
+			//alert("Edit");
 			window.open("editCar?&newdescription="+newDescription.toUpperCase()+"&id="+selectedCarId,"_self");
 
 		}

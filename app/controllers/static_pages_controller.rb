@@ -20,7 +20,11 @@ class StaticPagesController < ApplicationController
     mail = current_user.email
     @user = User.find_by(email: mail)
     @car = @user.car.find(params[:carId])
-    @car.update({coordinates: params[:coord], address: params[:address]})
+    if @car.update({coordinates: params[:coord], address: params[:address]})
+      flash[:success] = "Dirección actualizada correctamente"
+    else
+      flash[:error] = "Error al actualizar la dirección"
+    end
     redirect_to maps_path
   end
 
@@ -31,14 +35,22 @@ class StaticPagesController < ApplicationController
     mail = current_user.email
     @user = User.find_by(email: mail)
     @car = @user.car.find_by(_id: params[:id])
-    @car.update({description: params[:newdescription]})
+    if @car.update({description: params[:newdescription]})
+      flash[:success] = "Cambios realizados correctamente"
+    else
+      flash[:error] = "Error al realizar los cambios"
+    end
     redirect_to car_path
   end
 
   def newCar
     mail = current_user.email
     @user = User.find_by(email: mail)    
-    @user.car.create!(description: params[:newdescription])
+    if @user.car.create!(description: params[:newdescription])
+      flash[:success] = "Se ha creado un nuevo coche"
+    else
+      flash[:error] = "Error al crear el nuevo coche"
+    end
     redirect_to car_path
   end
 
@@ -46,7 +58,11 @@ class StaticPagesController < ApplicationController
     mail = current_user.email
     @user = User.find_by(email: mail)
     @car = @user.car.find_by(_id: params[:id])
-    @car.delete
+    if @car.delete
+      flash[:success] = "Coche eliminado correctamente"
+    else
+      flash[:error] = "Error al eliminar el coche"
+    end
     redirect_to car_path
   end
   
