@@ -76,11 +76,12 @@
 					<select id="optionList" class="form-control">
 						<option value="null">--</option>
 						<% @carList.each do |carList| %>
-						<option value="<%= carList._id %>"><%= carList.description.upcase %></option>
+							<option value="<%= carList._id %>"><%= carList.description.upcase %></option>
 						<% end %>
 						<option disabled role="separator">
 						<option value="new">Crear nuevo coche</option>
 					</select>
+						
 					<ul id="description-car" class="list-unstyled form-group" style="margin-top:10px; display:none;">
 						<li>
 							<h3><span class="label label-primary"><i class="fa fa-car label-car" id="description" ></i></span></h3>
@@ -89,15 +90,14 @@
 							(Introduce la nueva descripción para el coche)
 							<input type="text" class="form-control" id="newDescription" placeholder="Nueva descripción" aria-describedby="basic-addon1">
 						</li>
+					
 				</div>
-				
+
 				<div class="col-md-3 text-center">
 					<div class="btn btn-primary btn-fixed" onclick="saveChanges()"><span class="fa fa-floppy-o fa-fixed"></span>Guardar cambios</div>
 					<button class="btn btn-danger btn-fixed" onclick="removeCar()" id="btnRemove"><span class="fa fa-trash fa-fixed"></span>Eliminar coche</button>
 				</div>
-				
-				</div>
-					
-			</div>	
-		</div>
+			</div>			
+		</div>	
 	</div>
+</div>
