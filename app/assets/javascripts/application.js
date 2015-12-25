@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require bootstrap-tokenfield
 //= require turbolinks
 //= require bootstrap
 //= require maps/maps

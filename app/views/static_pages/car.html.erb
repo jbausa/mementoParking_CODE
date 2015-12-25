@@ -71,7 +71,7 @@
 			</div>
 			<div class="row vdivide well well-fixed">
 				<div class="col-md-9">
-					<h3><span class="label label-primary"><i class="fa fa-pencil-square-o">&nbsp;&nbsp;Editar Coche:</i></span></h3>
+					<h3><span class="label label-primary"><i class="fa fa-pencil-square-o">Editar Coche:</i></span></h3>
 					<% @carList = User.find_by(email: current_user.email).car %>
 					<select id="optionList" class="form-control">
 						<option value="null">--</option>
@@ -90,7 +90,15 @@
 							(Introduce la nueva descripción para el coche)
 							<input type="text" class="form-control" id="newDescription" placeholder="Nueva descripción" aria-describedby="basic-addon1">
 						</li>
-					
+
+						
+						<div class="form-group" style="margin-top:10px;">
+						  <h3><span class="label label-primary"><i class="fa fa-share-alt" id="description">&nbsp;&nbsp;Compartido con:</i></span></h3>
+						  <!-- https://github.com/icicletech/bootstrap-tokenfield-rails -->	
+						  <input type="text" class="form-control" id="tokenfield" value="red,green,blue" />
+						  <script type="text/javascript">$('#tokenfield').tokenfield()</script>
+						</div>
+						
 				</div>
 
 				<div class="col-md-3 text-center">

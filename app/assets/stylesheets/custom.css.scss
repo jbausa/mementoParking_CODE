@@ -11,6 +11,19 @@ body {
  overflow-y: auto;
 }
 
+/* Tokenize input color change for get the same appearance of the bootstrap theme */
+.tokenfield .token {
+  background-color: #2c3e50 !important;
+}
+
+.tokenfield .token .close {
+  color: #ffffff !important;
+}
+
+.tokenfield .token .token-label {
+  color: #ffffff !important;
+}
+
 /* Jumbotron and well background color change */
 .jumbotron {
   background-color: #CACCC6 !important;
