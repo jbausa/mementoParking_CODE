@@ -1,15 +1,25 @@
 <script type="text/javascript">
 	var selectedCarId = "null";
-	//var selectedOption = "null";
 	var selectedCar = null;
+	var sharedCar = new Object;
+
+	function insertSharedCar(carId, sharedUsers){ //Falta lista sharedUsers
+		var splited = sharedUsers.split(",");
+		var arrayAux = new Array();
+		for (var i = 0; i < splited.length; i++) {
+			arrayAux.push(splited[i]);
+		};
+			//sharedCar[carId].push("Holi");
+		sharedCar[carId] = arrayAux;
+		//alert("SharedUsers: " + sharedUsers +" Object: " + sharedCar[carId] +" CarID: " + carId + " Split: " + split[0]);
+	}
 
 	function setSelectedOption(option){
 		selectedOption = option;
 	}
 
 	function setSelectedCarId(descriptionCar){
-		//setSelectedOption(selected); //BORRAR
-		selectedCarId = document.getElementById("optionList").options[document.getElementById("optionList").selectedIndex ].value;
+		selectedCarId = document.getElementById("optionList").options[document.getElementById("optionList").selectedIndex].value;
 		if(selectedCarId=="null"){
 			document.getElementById('description-car').style.display = 'none';	
 		}
@@ -42,13 +52,69 @@
 		window.open("deleteCar?&id="+selectedCarId,"_self");
 	}
 
+	function inputMail(key){
+		if(event.keyCode == 13 || event.keyCode == 32) {
+        	//alert(key.value);    
+    	}
+	}
+
+	function clearWellSharedMail(){
+		var wellSharedMail = document.getElementById("wellSharedMail");
+		while (wellSharedMail.firstChild) {
+			wellSharedMail.removeChild(wellSharedMail.firstChild);
+		}
+	}
+
+	function createLabelMail(mail){
+		var newDiv = document.createElement("div");
+		newDiv.className = "alert alert-info alert-dismissible label-mail";
+		newDiv.innerHTML = mail;
+		var btnClose = document.createElement("button");
+		btnClose.className = "close label-mail-close";
+		btnClose.setAttribute("aria-label", "Close");
+		var chrClose = document.createElement("span");
+		chrClose.setAttribute("aria-hidden", "true");
+		chrClose.innerHTML = "&times;";
+		btnClose.appendChild(chrClose);
+
+		btnClose.onclick = function() {
+			$(this).parent().remove();
+			removeSharedUser(mail);
+		};
+
+		newDiv.appendChild(btnClose);
+		document.getElementById("wellSharedMail").appendChild(newDiv);
+	}
+
+	function closeButton(){
+		$(this).parent().hide();
+	}
+
+	function removeSharedUser(mailSharedUser){
+		//alert("Eliminar del Array: " + mailSharedUser);
+		var array = sharedCar[selectedCarId];
+		var index = sharedCar[selectedCarId].indexOf(mailSharedUser);
+		alert("Antes: "+sharedCar[selectedCarId] +" Index: "+index);
+		sharedCar[selectedCarId].splice(index,1);
+		alert("Después: "+ sharedCar[selectedCarId]);
+	}
+
 	$(document).ready(function() {
 		setSelectedCarId("null");
 		document.getElementById("btnRemove").disabled = true;
 		$('.form-control').on('change', function(){
-			//setSelectedCar($(this).find("option:selected").text());
-			setSelectedCarId($(this).find("option:selected").text());
-			if($(this).find("option:selected").val()=="null" || $(this).find("option:selected").val()=="new"){
+			var slc = $(this).find("option:selected").text();
+			var slcID = document.getElementById("optionList").options[document.getElementById("optionList").selectedIndex].value;
+			if (slc != ""){
+				clearWellSharedMail();
+				setSelectedCarId(slc);
+				splitSharedUsers = sharedCar[slcID];
+				if (splitSharedUsers != ""){
+					for (var i = 0; i < splitSharedUsers.length; i++) {
+						createLabelMail(splitSharedUsers[i]);
+					};}
+				}
+			if(slc=="null" || slc=="new"){
 				document.getElementById("btnRemove").disabled = true;
 			}
 			else{
@@ -71,12 +137,15 @@
 			</div>
 			<div class="row vdivide well well-fixed">
 				<div class="col-md-9">
-					<h3><span class="label label-primary"><i class="fa fa-pencil-square-o">Editar Coche:</i></span></h3>
+					<h3><span class="label label-primary"><i class="fa fa-pencil-square-o">&nbsp;&nbsp;Editar Coche:</i></span></h3>
 					<% @carList = User.find_by(email: current_user.email).car %>
 					<select id="optionList" class="form-control">
 						<option value="null">--</option>
 						<% @carList.each do |carList| %>
 							<option value="<%= carList._id %>"><%= carList.description.upcase %></option>
+							<% sharedList = carList.shared.to_s
+							   sharedList = sharedList.gsub(/[^0-9A-Za-z\@,.]/, '') %>
+							<script type="text/javascript">insertSharedCar("<%= carList._id %>","<%= sharedList %>")</script>
 						<% end %>
 						<option disabled role="separator">
 						<option value="new">Crear nuevo coche</option>
@@ -93,10 +162,16 @@
 
 						
 						<div class="form-group" style="margin-top:10px;">
-						  <h3><span class="label label-primary"><i class="fa fa-share-alt" id="description">&nbsp;&nbsp;Compartido con:</i></span></h3>
-						  <!-- https://github.com/icicletech/bootstrap-tokenfield-rails -->	
-						  <input type="text" class="form-control" id="tokenfield" value="red,green,blue" />
-						  <script type="text/javascript">$('#tokenfield').tokenfield()</script>
+							<h3><span class="label label-primary"><i class="fa fa-share-alt" id="description">&nbsp;&nbsp;Compartido con:</i></span></h3>
+							<!-- https://github.com/icicletech/bootstrap-tokenfield-rails -->
+
+							<div class="input-group add-on">
+							<input type="text" class="form-control" placeholder="Introduce un email" name="srch-term" id="srch-term" onkeydown="inputMail(this)">							
+							</div>
+							<div class="well well-whyte" id="wellSharedMail">
+							</div>
+
+
 						</div>
 						
 				</div>

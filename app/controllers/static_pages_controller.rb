@@ -35,7 +35,7 @@ class StaticPagesController < ApplicationController
     mail = current_user.email
     @user = User.find_by(email: mail)
     @car = @user.car.find_by(_id: params[:id])
-    if @car.update({description: params[:newdescription]})
+    if @car.update({description: params[:newdescription]}) && @car.add_to_set({shared: 'test@gmail.com'})
       flash[:success] = "Cambios realizados correctamente"
     else
       flash[:error] = "Error al realizar los cambios"
