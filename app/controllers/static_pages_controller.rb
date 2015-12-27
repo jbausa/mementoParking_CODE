@@ -23,7 +23,7 @@ class StaticPagesController < ApplicationController
     if @car.update({coordinates: params[:coord], address: params[:address]})
       flash[:success] = "Dirección actualizada correctamente"
     else
-      flash[:error] = "Error al actualizar la dirección"
+      flash[:alert] = "Error al actualizar la dirección"
     end
     redirect_to maps_path
   end
@@ -35,21 +35,43 @@ class StaticPagesController < ApplicationController
     mail = current_user.email
     @user = User.find_by(email: mail)
     @car = @user.car.find_by(_id: params[:id])
-    if @car.update({description: params[:newdescription]}) && @car.add_to_set({shared: 'test@gmail.com'})
-      flash[:success] = "Cambios realizados correctamente"
-    else
-      flash[:error] = "Error al realizar los cambios"
+    @alert = true
+
+    @car.set({shared: []})
+    params[:shared].split(",").each do |sharedUser|
+      if @car.add_to_set({shared: sharedUser})
+        flash[:success] = "Compartido cambiado correctamente"
+      else
+        @alert = false
+      end
     end
+
+    if params[:newdescription] != ""
+      if @car.update({description: params[:newdescription]})
+        flash[:success] = "Descripción cambiada correctamente" + params[:shared]
+      else
+        @alert = false
+      end
+    end
+    
+
+      #@car.add_to_set({shared: 'test@gmail.com'})
+    
+    if(!@alert)
+      flash[:alert] = "Error al realizar los cambios"
+    end
+
     redirect_to car_path
   end
 
   def newCar
     mail = current_user.email
     @user = User.find_by(email: mail)    
-    if @user.car.create!(description: params[:newdescription])
+    if params[:newdescription] != ""
+      @user.car.create!(description: params[:newdescription])
       flash[:success] = "Se ha creado un nuevo coche"
     else
-      flash[:error] = "Error al crear el nuevo coche"
+      flash[:alert] = "Error al crear el nuevo coche. Introduce una descripción."
     end
     redirect_to car_path
   end
@@ -61,7 +83,7 @@ class StaticPagesController < ApplicationController
     if @car.delete
       flash[:success] = "Coche eliminado correctamente"
     else
-      flash[:error] = "Error al eliminar el coche"
+      flash[:alert] = "Error al eliminar el coche"
     end
     redirect_to car_path
   end

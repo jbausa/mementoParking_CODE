@@ -31,6 +31,10 @@ color: #2c3e50 !important;
 .well .well-whyte{
   background-color: #ffffff !important;
   margin-top: 10px;
+  padding-top: 5px;
+  padding-bottom: 15px;
+  border: 1px;
+  border-style: inset;
 }
 
 /* Alert for labels mails */
@@ -38,6 +42,7 @@ color: #2c3e50 !important;
 .label-mail {
   margin-right:10px !important;
   margin-bottom: 0px !important;
+  margin-top: 10px !important;
   background-color: #325d88 !important; 
   display: inline-block !important;
   padding-top: 2px !important;

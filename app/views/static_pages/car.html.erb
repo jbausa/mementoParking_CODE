@@ -1,17 +1,18 @@
 <script type="text/javascript">
 	var selectedCarId = "null";
 	var selectedCar = null;
-	var sharedCar = new Object;
-
+	var sharedCarDB = new Object;
+	
 	function insertSharedCar(carId, sharedUsers){ //Falta lista sharedUsers
 		var splited = sharedUsers.split(",");
 		var arrayAux = new Array();
 		for (var i = 0; i < splited.length; i++) {
 			arrayAux.push(splited[i]);
 		};
-			//sharedCar[carId].push("Holi");
-		sharedCar[carId] = arrayAux;
-		//alert("SharedUsers: " + sharedUsers +" Object: " + sharedCar[carId] +" CarID: " + carId + " Split: " + split[0]);
+			//sharedCarDB[carId].push("Holi");
+			sharedCarDB[carId] = arrayAux;
+			sharedCarDB[carId] = arrayAux;
+		//alert("SharedUsers: " + sharedUsers +" Object: " + sharedCarDB[carId] +" CarID: " + carId + " Split: " + split[0]);
 	}
 
 	function setSelectedOption(option){
@@ -42,86 +43,90 @@
 		else{
 			var newDescription = document.getElementById('newDescription').value;
 			//alert("Edit");
-			window.open("editCar?&newdescription="+newDescription.toUpperCase()+"&id="+selectedCarId,"_self");
+			window.open("editCar?&newdescription="+newDescription.toUpperCase()+"&shared="+sharedCarDB[selectedCarId]+"&id="+selectedCarId,"_self");
 
 		}
 	}
 
 	function removeCar(){
-		alert("Eliminar");
+		//alert("Eliminar");
 		window.open("deleteCar?&id="+selectedCarId,"_self");
 	}
 
-	function inputMail(key){
-		if(event.keyCode == 13 || event.keyCode == 32) {
-        	//alert(key.value);    
-    	}
-	}
-
-	function clearWellSharedMail(){
-		var wellSharedMail = document.getElementById("wellSharedMail");
-		while (wellSharedMail.firstChild) {
-			wellSharedMail.removeChild(wellSharedMail.firstChild);
+	function inputMail(){
+		var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		var email = document.getElementById("inputMailShared").value;
+		if(re.test(email)){
+			document.getElementById('labelSharedMailIncorrect').style.display = 'none';
+			createLabelMail(email);
+			sharedCarDB[selectedCarId].splice(0,0,email);
+			document.getElementById("inputMailShared").value = "";
 		}
-	}
+		else{
+			document.getElementById('labelSharedMailIncorrect').style.display = 'block';
+    	}
+    }
 
-	function createLabelMail(mail){
-		var newDiv = document.createElement("div");
-		newDiv.className = "alert alert-info alert-dismissible label-mail";
-		newDiv.innerHTML = mail;
-		var btnClose = document.createElement("button");
-		btnClose.className = "close label-mail-close";
-		btnClose.setAttribute("aria-label", "Close");
-		var chrClose = document.createElement("span");
-		chrClose.setAttribute("aria-hidden", "true");
-		chrClose.innerHTML = "&times;";
-		btnClose.appendChild(chrClose);
+    function clearWellSharedMail(){
+    	var wellSharedMail = document.getElementById("wellSharedMail");
+    	while (wellSharedMail.firstChild) {
+    		wellSharedMail.removeChild(wellSharedMail.firstChild);
+    	}
+    }
 
-		btnClose.onclick = function() {
-			$(this).parent().remove();
-			removeSharedUser(mail);
-		};
+    function createLabelMail(mail){
+    	if(mail!=""){
+	    	var newDiv = document.createElement("div");
+	    	newDiv.className = "alert alert-info alert-dismissible label-mail";
+	    	newDiv.innerHTML = mail;
+	    	var btnClose = document.createElement("button");
+	    	btnClose.className = "close label-mail-close";
+	    	btnClose.setAttribute("aria-label", "Close");
+	    	var chrClose = document.createElement("span");
+	    	chrClose.setAttribute("aria-hidden", "true");
+	    	chrClose.innerHTML = "&times;";
+	    	btnClose.appendChild(chrClose);
+	    	btnClose.onclick = function() {
+	    		$(this).parent().remove();
+	    		removeSharedUser(mail);
+	    	};
+	    	newDiv.appendChild(btnClose);
+	    		document.getElementById("wellSharedMail").appendChild(newDiv);
+	    	}
+    }
 
-		newDiv.appendChild(btnClose);
-		document.getElementById("wellSharedMail").appendChild(newDiv);
-	}
+    function closeButton(){
+    	$(this).parent().hide();
+    }
 
-	function closeButton(){
-		$(this).parent().hide();
-	}
+    function removeSharedUser(mailSharedUser){
+    	var index = sharedCarDB[selectedCarId].indexOf(mailSharedUser);
+    	sharedCarDB[selectedCarId].splice(index,1);
+    }
 
-	function removeSharedUser(mailSharedUser){
-		//alert("Eliminar del Array: " + mailSharedUser);
-		var array = sharedCar[selectedCarId];
-		var index = sharedCar[selectedCarId].indexOf(mailSharedUser);
-		alert("Antes: "+sharedCar[selectedCarId] +" Index: "+index);
-		sharedCar[selectedCarId].splice(index,1);
-		alert("Después: "+ sharedCar[selectedCarId]);
-	}
-
-	$(document).ready(function() {
-		setSelectedCarId("null");
-		document.getElementById("btnRemove").disabled = true;
-		$('.form-control').on('change', function(){
-			var slc = $(this).find("option:selected").text();
-			var slcID = document.getElementById("optionList").options[document.getElementById("optionList").selectedIndex].value;
-			if (slc != ""){
-				clearWellSharedMail();
-				setSelectedCarId(slc);
-				splitSharedUsers = sharedCar[slcID];
-				if (splitSharedUsers != ""){
-					for (var i = 0; i < splitSharedUsers.length; i++) {
-						createLabelMail(splitSharedUsers[i]);
-					};}
-				}
-			if(slc=="null" || slc=="new"){
-				document.getElementById("btnRemove").disabled = true;
-			}
-			else{
-				document.getElementById("btnRemove").disabled = false;
-			}
-		});
-	});
+    $(document).ready(function() {
+    	setSelectedCarId("null");
+    	document.getElementById("btnRemove").disabled = true;
+    	$('.form-control').on('change', function(){
+    		var slc = $(this).find("option:selected").text();
+    		var slcID = document.getElementById("optionList").options[document.getElementById("optionList").selectedIndex].value;
+    		if (slc != ""){
+    			clearWellSharedMail();
+    			setSelectedCarId(slc);
+    			splitSharedUsers = sharedCarDB[slcID];
+    			if (splitSharedUsers != ""){
+    				for (var i = 0; i < splitSharedUsers.length; i++) {
+    					createLabelMail(splitSharedUsers[i]);
+    				};}
+    			}
+    			if(slc=="null" || slc=="new"){
+    				document.getElementById("btnRemove").disabled = true;
+    			}
+    			else{
+    				document.getElementById("btnRemove").disabled = false;
+    			}
+    		});
+    });
 
 </script>
 
@@ -142,45 +147,49 @@
 					<select id="optionList" class="form-control">
 						<option value="null">--</option>
 						<% @carList.each do |carList| %>
-							<option value="<%= carList._id %>"><%= carList.description.upcase %></option>
-							<% sharedList = carList.shared.to_s
-							   sharedList = sharedList.gsub(/[^0-9A-Za-z\@,.]/, '') %>
-							<script type="text/javascript">insertSharedCar("<%= carList._id %>","<%= sharedList %>")</script>
+						<option value="<%= carList._id %>"><%= carList.description.upcase %></option>
+						<% sharedList = carList.shared.to_s
+						sharedList = sharedList.gsub(/[^0-9A-Za-z\@,.]/, '') %>
+						<script type="text/javascript">insertSharedCar("<%= carList._id %>","<%= sharedList %>")</script>
 						<% end %>
 						<option disabled role="separator">
-						<option value="new">Crear nuevo coche</option>
-					</select>
+							<option value="new">Crear nuevo coche</option>
+						</select>
 						
-					<ul id="description-car" class="list-unstyled form-group" style="margin-top:10px; display:none;">
-						<li>
-							<h3><span class="label label-primary"><i class="fa fa-car label-car" id="description" ></i></span></h3>
-						</li>
-						<li>
-							(Introduce la nueva descripción para el coche)
-							<input type="text" class="form-control" id="newDescription" placeholder="Nueva descripción" aria-describedby="basic-addon1">
-						</li>
+						<ul id="description-car" class="list-unstyled form-group" style="margin-top:10px; display:none;">
+							<li>
+								<h3><span class="label label-primary"><i class="fa fa-car label-car" id="description" ></i></span></h3>
+							</li>
+							<li>
+								(Introduce la nueva descripción para el coche)
+								<input type="text" class="form-control" id="newDescription" placeholder="Nueva descripción" aria-describedby="basic-addon1">
+							</li>
 
-						
-						<div class="form-group" style="margin-top:10px;">
-							<h3><span class="label label-primary"><i class="fa fa-share-alt" id="description">&nbsp;&nbsp;Compartido con:</i></span></h3>
-							<!-- https://github.com/icicletech/bootstrap-tokenfield-rails -->
 
-							<div class="input-group add-on">
-							<input type="text" class="form-control" placeholder="Introduce un email" name="srch-term" id="srch-term" onkeydown="inputMail(this)">							
+							<div class="form-group" style="margin-top:10px;">
+								<h3><span class="label label-primary"><i class="fa fa-share-alt" id="description">&nbsp;&nbsp;Compartido con:</i></span></h3>
+
+								<div class="row">
+									<div class="col-lg-9">
+										<div class="input-group">
+											<input type="text" class="form-control" placeholder="Introduce un email" name="srch-term" id="inputMailShared">
+											<span class="input-group-btn"><button class="btn btn-primary" type="button" onclick="inputMail()">Compartir</button></span>
+										</div><!-- /input-group -->
+									</div><!-- /.col-lg-6 -->
+								</div><!-- /.row -->
+								<div class="alert alert-danger alert-dismissible" style="margin-top:10px; display:none;" role="alert" id="labelSharedMailIncorrect">
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Introduce un email válido</div>
+									<div class="well well-whyte" id="wellSharedMail">
+									</div>
+								</div>
+
 							</div>
-							<div class="well well-whyte" id="wellSharedMail">
+
+							<div class="col-md-3 text-center">
+								<div class="btn btn-primary btn-fixed" onclick="saveChanges()"><span class="fa fa-floppy-o fa-fixed"></span>Guardar cambios</div>
+								<button class="btn btn-danger btn-fixed" onclick="removeCar()" id="btnRemove"><span class="fa fa-trash fa-fixed"></span>Eliminar coche</button>
 							</div>
-
-
-						</div>
-						
+						</div>			
+					</div>	
 				</div>
-
-				<div class="col-md-3 text-center">
-					<div class="btn btn-primary btn-fixed" onclick="saveChanges()"><span class="fa fa-floppy-o fa-fixed"></span>Guardar cambios</div>
-					<button class="btn btn-danger btn-fixed" onclick="removeCar()" id="btnRemove"><span class="fa fa-trash fa-fixed"></span>Eliminar coche</button>
-				</div>
-			</div>			
-		</div>	
-	</div>
-</div>
+			</div>
