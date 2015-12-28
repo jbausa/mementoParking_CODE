@@ -17,9 +17,10 @@ class StaticPagesController < ApplicationController
   end
 
   def coords
-    mail = current_user.email
-    @user = User.find_by(email: mail)
-    @car = @user.car.find(params[:carId])
+      #mail = current_user.email
+      @user = User.find_by(email: params[:mailOwner])
+      @car = @user.car.find(params[:carId])
+
     if @car.update({coordinates: params[:coord], address: params[:address]})
       flash[:success] = "Dirección actualizada correctamente"
     else
@@ -34,7 +35,7 @@ class StaticPagesController < ApplicationController
   def editCar
     mail = current_user.email
     @user = User.find_by(email: mail)
-    @car = @user.car.find_by(_id: params[:id])
+    @car = User.find_by(_id: params[:id])
     @alert = true
 
     @car.set({shared: []})

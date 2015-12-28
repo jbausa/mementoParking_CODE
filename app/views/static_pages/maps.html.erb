@@ -12,6 +12,11 @@
  	var address = null;
  	var geocoder = new google.maps.Geocoder;
  	var carId = null;
+ 	var mailOwner = null;
+
+ 	function setMailOwner(newMailOwner){
+ 		mailOwner = newMailOwner;
+ 	}
 
  	function setCarId(id){
  		carId = id;
@@ -53,13 +58,13 @@
  				if (results[0]) {
  					map.setZoom(15);
  					infowindow.setContent(results[0].formatted_address);
-				} else {
-					window.alert('No results found');
-				}
-			} else {
-				window.alert('Geocoder failed due to: ' + status);
-			}
-		});
+ 				} else {
+ 					window.alert('No results found');
+ 				}
+ 			} else {
+ 				window.alert('Geocoder failed due to: ' + status);
+ 			}
+ 		});
 
  		/* Listeners for map, markerHome and click */
  		google.maps.event.addListener(markerHome, 'click', function(){infowindow.open(map,markerHome);});
@@ -90,126 +95,126 @@
 	}
 
 	 // A function to create the marker and set up the event window function 
-	function createMarkerLatLng(latlng) {
-		markerUserClick = new google.maps.Marker({position: latlng, label: "A", map: map, zIndex: Math.round(latlng.lat()*-100000)<<5});
-		geocoder.geocode({'location': latlng}, function(results, status) {
-			if (status === google.maps.GeocoderStatus.OK) {
-				if (results[0]) {
-					map.setZoom(15);
-					address = results[0].formatted_address;
-					infowindow.setContent("<b>Nueva ubicación:</b><br>" + results[0].formatted_address);
-					infowindow.open(map, markerUserClick);
-				} else {
-					window.alert('No results found');
-				}
-			} else {
-				window.alert('Geocoder failed due to: ' + status);
-			}
-		});
-		google.maps.event.trigger(markerUserClick, 'click');
-	}
+	 function createMarkerLatLng(latlng) {
+	 	markerUserClick = new google.maps.Marker({position: latlng, label: "A", map: map, zIndex: Math.round(latlng.lat()*-100000)<<5});
+	 	geocoder.geocode({'location': latlng}, function(results, status) {
+	 		if (status === google.maps.GeocoderStatus.OK) {
+	 			if (results[0]) {
+	 				map.setZoom(15);
+	 				address = results[0].formatted_address;
+	 				infowindow.setContent("<b>Nueva ubicación:</b><br>" + results[0].formatted_address);
+	 				infowindow.open(map, markerUserClick);
+	 			} else {
+	 				window.alert('No results found');
+	 			}
+	 		} else {
+	 			window.alert('Geocoder failed due to: ' + status);
+	 		}
+	 	});
+	 	google.maps.event.trigger(markerUserClick, 'click');
+	 }
 
-	function saveLocation(){
-		if(coords==null){
-			$('#alertCoord').show();
-		}
-		if(carId==null){
-			$('#alertCar').show();
-		}
-		if(coords!=null && carId!=null) {
-			window.open("coords?&coord="+coords+"&address="+address+"&carId="+carId+"&currentUser="+"CURRENTUSER","_self");
-		}
-	}
+	 function saveLocation(){
+	 	if(coords==null){
+	 		$('#alertCoord').show();
+	 	}
+	 	if(carId==null){
+	 		$('#alertCar').show();
+	 	}
+	 	if(coords!=null && carId!=null) {
+	 		window.open("coords?&coord="+coords+"&address="+address+"&carId="+carId+"&mailOwner="+mailOwner,"_self");
+	 	}
+	 }
 
-	function addMarkerDB(address, description) {
-		
-		if (markerUserClick) {
-			markerUserClick.setMap(null);
-			markerUserClick = null;
-		}
+	 function addMarkerDB(address, description) {
 
-		if(address!=""){
-			geocoder.geocode({'address': address}, function(results, status) {
-				if (status === google.maps.GeocoderStatus.OK) {
-					var markerDB = new google.maps.Marker({
-						map: map,
-						draggable: true,
-						position: results[0].geometry.location
-					});
-					var infoWindowDB = new google.maps.InfoWindow({size: new google.maps.Size(150,50)});
-					infoWindowDB.setContent("<b>"+description+":</b><br>"+ results[0].formatted_address);
-					setMarkerDB(markerDB);
-					google.maps.event.addListener(markerDB, 'click', function(){infoWindowDB.open(map,markerDB);});
-				} else {
-					alert('Geocode was not successful for the following reason: ' + status);
-				}
-			});
-		}
-	}
+	 	if (markerUserClick) {
+	 		markerUserClick.setMap(null);
+	 		markerUserClick = null;
+	 	}
 
-	function addMarkerCar(address, idCar){
-		setCarId(idCar);
-		clearMarkers();
-		if (markerCar) {
- 			markerCar.setMap(null);
- 			markerCar = null;
- 		}
+	 	if(address!=""){
+	 		geocoder.geocode({'address': address}, function(results, status) {
+	 			if (status === google.maps.GeocoderStatus.OK) {
+	 				var markerDB = new google.maps.Marker({
+	 					map: map,
+	 					draggable: true,
+	 					position: results[0].geometry.location
+	 				});
+	 				var infoWindowDB = new google.maps.InfoWindow({size: new google.maps.Size(150,50)});
+	 				infoWindowDB.setContent("<b>"+description+":</b><br>"+ results[0].formatted_address);
+	 				setMarkerDB(markerDB);
+	 				google.maps.event.addListener(markerDB, 'click', function(){infoWindowDB.open(map,markerDB);});
+	 			} else {
+	 				alert('Geocode was not successful for the following reason: ' + status);
+	 			}
+	 		});
+	 	}
+	 }
 
- 		if(address!=""){
-			geocoder.geocode({'address': address}, function(results, status) {
-				if (status === google.maps.GeocoderStatus.OK) {
-					markerCar = new google.maps.Marker({
-						map: map,
-						draggable: true,
-						position: results[0].geometry.location
-					});
-					var infoWindowCar = new google.maps.InfoWindow({size: new google.maps.Size(150,50)});
-					infoWindowCar.setContent(results[0].formatted_address);
-					google.maps.event.addListener(markerCar, 'click', function(){infoWindowCar.open(map,markerCar);});
+	 function addMarkerCar(address, idCar, mailOwner){
+	 	setMailOwner(mailOwner);
+	 	setCarId(idCar);
+	 	clearMarkers();
+	 	if (markerCar) {
+	 		markerCar.setMap(null);
+	 		markerCar = null;
+	 	}
+
+	 	if(address!=""){
+	 		geocoder.geocode({'address': address}, function(results, status) {
+	 			if (status === google.maps.GeocoderStatus.OK) {
+	 				markerCar = new google.maps.Marker({
+	 					map: map,
+	 					draggable: true,
+	 					position: results[0].geometry.location
+	 				});
+	 				var infoWindowCar = new google.maps.InfoWindow({size: new google.maps.Size(150,50)});
+	 				infoWindowCar.setContent(results[0].formatted_address);
+	 				google.maps.event.addListener(markerCar, 'click', function(){infoWindowCar.open(map,markerCar);});
 
 
-					map.panTo(markerCar.getPosition());
-					location.href = "#";
-					location.href = "#map-canvas";
-				} else {
-					alert('Geocode was not successful for the following reason: ' + status);
-				}
-			});
-		}
-	}
+	 				map.panTo(markerCar.getPosition());
+	 				location.href = "#";
+	 				location.href = "#map-canvas";
+	 			} else {
+	 				alert('Geocode was not successful for the following reason: ' + status);
+	 			}
+	 		});
+	 	}
+	 }
 
-	function setMapOnAll() {
-	  for (var i = 0; i < markerDB.length; i++) {
-	    markerDB[i].setMap(map);
-	  }
-	  clearSelectors();
-	}
+	 function setMapOnAll() {
+	 	for (var i = 0; i < markerDB.length; i++) {
+	 		markerDB[i].setMap(map);
+	 	}
+	 	clearSelectors();
+	 }
 
-	function clearMarkers(){
-		for (var i = 0; i < markerDB.length; i++) {
-		    markerDB[i].setMap(null);
-		}
-		if (markerCar){
-			markerCar.setMap(null);
-			markerCar = null;
-		}
-		if (markerUserClick) {
-			markerUserClick.setMap(null);
-			markerUserClick = null;
-		}
-		clearSelectors();
-		setCarId == null;
-	}	
+	 function clearMarkers(){
+	 	for (var i = 0; i < markerDB.length; i++) {
+	 		markerDB[i].setMap(null);
+	 	}
+	 	if (markerCar){
+	 		markerCar.setMap(null);
+	 		markerCar = null;
+	 	}
+	 	if (markerUserClick) {
+	 		markerUserClick.setMap(null);
+	 		markerUserClick = null;
+	 	}
+	 	clearSelectors();
+	 	setCarId == null;
+	 }	
 
-	function clearSelectors(){
-		var elems = document.querySelectorAll(".radio-inline, .radio");	
-		[].forEach.call(elems, function(el) {
-		    el.classList.remove("checked");
-		});
-	}
-</script>
-
-<div class="jumbotron fixed-top">
+	 function clearSelectors(){
+	 	var elems = document.querySelectorAll(".radio-inline, .radio");	
+	 	[].forEach.call(elems, function(el) {
+	 		el.classList.remove("checked");
+	 	});
+	 }
+	</script>
+	<div class="jumbotron fixed-top">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title"><span class="fa fa-map-marker" aria-hidden="true" style="margin-right: 10px"></span>Mi mapa</h3>
@@ -222,7 +227,7 @@
 				
 			</div>
 		</div>
-	
+
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title"><span class="fa fa-car" aria-hidden="true" style="margin-right: 10px"></span>Mis ubicaciones</h3>
@@ -252,8 +257,9 @@
 							<% @car.each_with_index do |car, index| %>
 							<% if index != 0 %> <li class="separator"/>	<% end %>
 							<li>
-								<h3><span class="label label-primary"><i class="fa fa-car label-car">&nbsp;&nbsp;<%= car.description.upcase %></i></span></h3>
-								<label type="radio" for="<%= car.description %>" class="radio-inline" onclick="addMarkerCar('<%= car.address %>', this.id)" id="<%= car.id %>"> 
+								<h3><label class="label label-primary" style="display: inline-block; width: 100%"><i class="fa fa-car label-car" style="white-space: normal">&nbsp;&nbsp;<%= car.description.upcase %></i></label></h3>
+								<label type="radio" for="<%= car.description %>" class="radio-inline" onclick="addMarkerCar('<%= car.address %>', this.id, '<%= current_user.email %>')" id="<%= car.id %>"> 
+
 									<% if(car.address) %> 
 									<%= car.address %>
 									<% else %>
@@ -261,20 +267,52 @@
 									<% end %>
 								</label>
 								<script type="text/javascript">addMarkerDB('<%= car.address %>', '<%= car.description %>')</script>
-							</li>							
+							</li>
+							<% end %>
+
+							<h3><label class="label label-warning" style="display: inline-block; width: 100%"><i class="fa fa-share-alt" id="description" style="white-space: normal">&nbsp;&nbsp;Compartidos conmigo:</i></label></h3>
+
+							<% @userSharing = User.where(:'car.shared' => current_user.email).all %>
+							<% index=0%>
+							<% @userSharing.each do |userSharing| %>
+
+								<% @car = User.find(userSharing.id).car %>
+								<% @car.each do |carSharing| %>
+									<% if carSharing.shared %>
+										<% if carSharing.shared.include?(current_user.email) && userSharing.email != current_user.email%>
+											<% if index != 0 %> <li class="separator"/>	<% end %>
+											<li>
+												<h3><label class="label label-primary" style="display: inline-block; width: 100%"><i style="white-space: normal" class="fa fa-car label-car">&nbsp;&nbsp;<%= carSharing.description.upcase %> (Compartido por: <%= userSharing.name %>)</i></label></h3>
+												<label type="radio" for="<%= carSharing.description %>" class="radio-inline" onclick="addMarkerCar('<%= carSharing.address %>', this.id, '<%= userSharing.email %>')" id="<%= carSharing.id %>"> 
+													<% if(carSharing.address) %> 
+													<%= carSharing.address %>
+													<% else %>
+													<%= "Selecciona una nueva ubicación" %> 
+													<% end %>
+												</label>
+												<script type="text/javascript">addMarkerDB('<%= carSharing.address %>', '<%= carSharing.description %>')</script>
+											</li>
+											<% index = index+1 %>
+										<% end %>
+									<% end %>
+								<% end %>
+							<!-- Crear un bucle para recorrer todos los coches compartidos conmigo por el Usuario -->
+
+							
+							
 							<script type="text/javascript">setMapOnAll()</script>
 							<% end %>
 						</ul>
 					</div>
 
-				<!-- END LIST UBICATIONS -->
+					<!-- END LIST UBICATIONS -->
 					<div class="col-md-3 text-center">
 						<div class="btn btn-primary btn-fixed" onclick="getLocation()"><span class="glyphicon glyphicon-screenshot fa-fixed"></span>Centrar</div>
 						<div class="btn btn-primary btn-fixed" onclick="saveLocation()"><span class="fa fa-map-marker fa-fixed"></span>Guardar marcador</div>  
 						<div class="btn btn-primary btn-fixed" onclick="clearMarkers()"><span class="fa fa-map-o fa-fixed"></span>Limpiar mapa</div>
 						<div class="btn btn-primary btn-fixed" onclick="setMapOnAll()"><span class="fa fa-eye fa-fixed"></span>Mostrar ubicaciones</div>
 					</div>
-				</div>				
+				</div>	
 			</div>
 		</div>	
 	</div>
@@ -282,7 +320,7 @@
 
 <script type="text/javascript">
 
-$(document).ready(function() {
+	$(document).ready(function() {
 
 
 	//When checkboxes/radios checked/unchecked, toggle background color
