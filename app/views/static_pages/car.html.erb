@@ -1,20 +1,9 @@
 <script type="text/javascript">
+	/* Variables and setters */
 	var selectedCarId = "null";
 	var selectedCar = null;
 	var sharedCarDB = new Object;
 	
-	function insertSharedCar(carId, sharedUsers){ //Falta lista sharedUsers
-		var splited = sharedUsers.split(",");
-		var arrayAux = new Array();
-		for (var i = 0; i < splited.length; i++) {
-			arrayAux.push(splited[i]);
-		};
-			//sharedCarDB[carId].push("Holi");
-			sharedCarDB[carId] = arrayAux;
-			sharedCarDB[carId] = arrayAux;
-		//alert("SharedUsers: " + sharedUsers +" Object: " + sharedCarDB[carId] +" CarID: " + carId + " Split: " + split[0]);
-	}
-
 	function setSelectedOption(option){
 		selectedOption = option;
 	}
@@ -30,29 +19,38 @@
 		}
 	}
 
+	/* Insert shared vehicle owners mail in array SharedCar */
+	function insertSharedCar(carId, sharedUsers){ //Falta lista sharedUsers
+		var splited = sharedUsers.split(",");
+		var arrayAux = new Array();
+		for (var i = 0; i < splited.length; i++) {
+			arrayAux.push(splited[i]);
+		};
+		sharedCarDB[carId] = arrayAux;
+		sharedCarDB[carId] = arrayAux;
+	}
+
+	/* Save changes to car into DB */
 	function saveChanges(){
 		if(selectedCarId == "null"){
 			$('#lblNoCarSelected').show();
-			//alert("Null");
 		}
 		else if(selectedCarId =="new"){
 			var newDescription = document.getElementById('newDescription').value;
-			//alert("New");
 			window.open("newCar?&newdescription="+newDescription.toUpperCase(),"_self");
 		}
 		else{
 			var newDescription = document.getElementById('newDescription').value;
-			//alert("Edit");
 			window.open("editCar?&newdescription="+newDescription.toUpperCase()+"&shared="+sharedCarDB[selectedCarId]+"&id="+selectedCarId,"_self");
-
 		}
 	}
 
+	/* Remove car in DB */
 	function removeCar(){
-		//alert("Eliminar");
 		window.open("deleteCar?&id="+selectedCarId,"_self");
 	}
 
+	/* Check if mail is correct and change label */
 	function inputMail(){
 		var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 		var email = document.getElementById("inputMailShared").value;
@@ -67,6 +65,7 @@
     	}
     }
 
+    /* Clear labels of shared users */
     function clearWellSharedMail(){
     	var wellSharedMail = document.getElementById("wellSharedMail");
     	while (wellSharedMail.firstChild) {
@@ -74,6 +73,7 @@
     	}
     }
 
+    /* Create and append label for shared vehicle owners mails */
     function createLabelMail(mail){
     	if(mail!=""){
 	    	var newDiv = document.createElement("div");
@@ -95,10 +95,12 @@
 	    	}
     }
 
+    /* Hide label shared vehicle owners mail when close button pressed */
     function closeButton(){
     	$(this).parent().hide();
     }
 
+    /* Remove shared vehicle owners from array */
     function removeSharedUser(mailSharedUser){
     	var index = sharedCarDB[selectedCarId].indexOf(mailSharedUser);
     	sharedCarDB[selectedCarId].splice(index,1);
@@ -174,9 +176,9 @@
 										<div class="input-group">
 											<input type="text" class="form-control" placeholder="Introduce un email" name="srch-term" id="inputMailShared">
 											<span class="input-group-btn"><button class="btn btn-primary" type="button" onclick="inputMail()">Compartir</button></span>
-										</div><!-- /input-group -->
-									</div><!-- /.col-lg-6 -->
-								</div><!-- /.row -->
+										</div>
+									</div>
+								</div>
 								<div class="alert alert-danger alert-dismissible" style="margin-top:10px; display:none;" role="alert" id="labelSharedMailIncorrect">
 									<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Introduce un email válido</div>
 									<div class="well well-whyte" id="wellSharedMail">

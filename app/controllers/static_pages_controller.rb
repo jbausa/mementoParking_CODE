@@ -17,7 +17,6 @@ class StaticPagesController < ApplicationController
   end
 
   def coords
-      #mail = current_user.email
       @user = User.find_by(email: params[:mailOwner])
       @car = @user.car.find(params[:carId])
 
@@ -34,7 +33,7 @@ class StaticPagesController < ApplicationController
 
   def editCar
     mail = current_user.email
-    @user = User.find_by(email: mail)
+    #@user = User.find_by(email: mail)
     @car = User.find_by(_id: params[:id])
     @alert = true
 
@@ -54,9 +53,6 @@ class StaticPagesController < ApplicationController
         @alert = false
       end
     end
-    
-
-      #@car.add_to_set({shared: 'test@gmail.com'})
     
     if(!@alert)
       flash[:alert] = "Error al realizar los cambios"
