@@ -1,6 +1,6 @@
  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAVdlyqpDfn1sXmYcY9WJS4cfU0jnkIWao"></script>
  <script type="text/javascript">
- 	// VARIABLES
+ 	// Variables and Setters
  	var map;
  	var markerUserClick = null;
  	var markerDB = [];
@@ -36,6 +36,8 @@
  		markerCar.setMap(null);
  	}
 
+
+	/* Initialize map with home marker */
  	function set_map_Location(position){
  		/* Create map */
  		var mapOptions = {
@@ -45,7 +47,7 @@
  		};
  		map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 
- 		/* Add markerHome with infowindow */
+ 		/* Add markerHome with infowindow and custom icon */
  		var markerHome = new google.maps.Marker(
  			{position: new google.maps.LatLng(position.coords.latitude, position.coords.longitude), 
  				map: map,
@@ -68,7 +70,7 @@
  			}
  		});
 
- 		/* Listeners for map, markerHome and click */
+ 		/* Listeners for map, markerHome and click in map */
  		google.maps.event.addListener(markerHome, 'click', function(){infowindow.open(map,markerHome);});
  		google.maps.event.addListener(map, 'click', function(event) {
  			if (markerUserClick) {
@@ -80,6 +82,7 @@
  		});
  	}
 
+ 	/* Get user's location (HTML5) */
  	function getLocation() {
  		if (navigator.geolocation) {
  			coords = null;
@@ -98,7 +101,12 @@
 
 	 // A function to create the marker and set up the event window function 
 	 function createMarkerLatLng(latlng) {
-	 	markerUserClick = new google.maps.Marker({position: latlng, label: "A", map: map, zIndex: Math.round(latlng.lat()*-100000)<<5});
+	 	markerUserClick = new google.maps.Marker(
+	 		{position: latlng, 
+	 		icon: "https://mt.google.com/vt/icon?psize=20&font=fonts/Roboto-Regular.ttf&color=ff330000&name=icons/spotlight/spotlight-waypoint-blue.png",
+	 		map: map, 
+	 		zIndex: Math.round(latlng.lat()*-100000)<<5}
+	 	);
 	 	geocoder.geocode({'location': latlng}, function(results, status) {
 	 		if (status === google.maps.GeocoderStatus.OK) {
 	 			if (results[0]) {
