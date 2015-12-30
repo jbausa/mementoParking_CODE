@@ -7,8 +7,7 @@ development:
       # (required).
       # Provides the hosts the default client can connect to. Must be an array
       # of host:port pairs. (required)
-      #uri: 'mongodb://juanbausa:123456789@ds061374.mongolab.com:61374/memento_parking'
-      uri: 'mongodb://juanbausa:123456789@ds037215.mongolab.com:37215/heroku_67jhmfr0'
+      uri: 'mongodb://juanbausa:123456789@ds061374.mongolab.com:61374/memento_parking'
       options:
       
         # Change the default write concern. (default = { w: 1 })
