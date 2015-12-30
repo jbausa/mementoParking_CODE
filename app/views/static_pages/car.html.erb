@@ -47,7 +47,9 @@
 
 	/* Remove car in DB */
 	function removeCar(){
-		window.open("deleteCar?&id="+selectedCarId,"_self");
+	    if (confirm("¿Estás seguro de que deseas eliminar el coche seleccionado?")) {
+			window.open("deleteCar?&id="+selectedCarId,"_self");
+	    }
 	}
 
 	/* Check if mail is correct and change label */
