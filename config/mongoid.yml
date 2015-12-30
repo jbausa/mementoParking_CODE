@@ -134,3 +134,15 @@ test:
         read:
           mode: :primary
         max_pool_size: 1
+
+production:
+  # Configure available database clients. (required)
+  clients:
+    # Defines the default client. (required)
+    default:
+      # Defines the name of the default database that Mongoid can connect to.
+      # (required).
+      # Provides the hosts the default client can connect to. Must be an array
+      # of host:port pairs. (required)
+      uri: 'mongodb://juanbausa:123456789@ds061374.mongolab.com:61374/memento_parking'
+      options:
