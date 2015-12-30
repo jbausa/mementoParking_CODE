@@ -56,8 +56,8 @@
  		latlng = {lat: parseFloat(position.coords.latitude), lng: parseFloat(position.coords.longitude)};
  		
  		/* Locate user position */
- 		var prueba = {'location': latlng};
- 		geocoder.geocode(prueba, function(results, status) {
+ 		var location = {'location': latlng};
+ 		geocoder.geocode(location, function(results, status) {
  			if (status === google.maps.GeocoderStatus.OK) {
  				if (results[0]) {
  					map.setZoom(15);
@@ -87,8 +87,6 @@
  		if (navigator.geolocation) {
  			coords = null;
  			navigator.geolocation.getCurrentPosition(set_map_Location);
- 		} else {
- 			x.innerHTML = "Geolocation is not supported by this browser.";
  		}
  	}
 
@@ -145,7 +143,7 @@
 	 		markerUserClick = null;
 	 	}
 
-	 	if(address!=""){
+	 	if(address){
 	 		geocoder.geocode({'address': address}, function(results, status) {
 	 			if (status === google.maps.GeocoderStatus.OK) {
 	 				var markerDB = new google.maps.Marker({
