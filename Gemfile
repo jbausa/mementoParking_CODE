@@ -6,7 +6,7 @@ gem 'rails', '4.2.4'
 
 # Use Mongo for DB
 gem 'mongo'
-gem 'mongoid', '~> 4.0.1'
+gem 'mongoid', '~> 5.0'
 gem 'bson_ext'
 
 # Use Bootstrap for friendly and responsive UI
