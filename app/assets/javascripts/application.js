@@ -15,5 +15,4 @@
 //= require bootstrap-tokenfield
 //= require turbolinks
 //= require bootstrap
-//= require maps/maps
 //= require_tree .
