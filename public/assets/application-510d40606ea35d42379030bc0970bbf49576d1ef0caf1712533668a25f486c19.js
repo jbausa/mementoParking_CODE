@@ -15045,8 +15045,8 @@ if (typeof jQuery === 'undefined') {
 
 }(jQuery);
 </script>
- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAVdlyqpDfn1sXmYcY9WJS4cfU0jnkIWao&sensor=false">
- </script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAVdlyqpDfn1sXmYcY9WJS4cfU0jnkIWao&sensor=false">
+</script>
  <script type="text/javascript">
 
   function getLocation(){
