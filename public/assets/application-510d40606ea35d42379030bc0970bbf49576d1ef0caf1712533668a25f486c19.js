@@ -1,4 +1,4 @@
-<script type="text/javascript">
+<script type="text/html">
 /*!
  * jQuery JavaScript Library v1.11.3
  * http://jquery.com/
@@ -15045,9 +15045,9 @@ if (typeof jQuery === 'undefined') {
 
 }(jQuery);
 </script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAVdlyqpDfn1sXmYcY9WJS4cfU0jnkIWao&sensor=false">
+<script type="text/html" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAVdlyqpDfn1sXmYcY9WJS4cfU0jnkIWao&sensor=false">
 </script>
- <script type="text/javascript">
+ <script type="text/html">
 
   function getLocation(){
     if (navigator.geolocation){
