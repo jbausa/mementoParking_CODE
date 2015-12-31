@@ -1,5 +1,14 @@
 /* universal */
 
+
+.navbar {
+    z-index: 1000;
+}
+
+.pole-content-holder > #pole-heading {
+    z-index: 1001;
+}
+
 /* Navbar fixed margin top */
 body {
  padding-top: 60px;
