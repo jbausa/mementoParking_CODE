@@ -1,6 +1,4 @@
- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAVdlyqpDfn1sXmYcY9WJS4cfU0jnkIWao&sensor=false">
- </script>
- <script type="text/javascript">
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAVdlyqpDfn1sXmYcY9WJS4cfU0jnkIWao&sensor=false">
 
   function getLocation(){
     if (navigator.geolocation){
@@ -44,4 +42,4 @@
 
   //google.maps.event.addDomListener(window, 'load', getLocation() );
 
- </script>
+</script>
