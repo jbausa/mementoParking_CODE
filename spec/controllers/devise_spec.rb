@@ -42,10 +42,10 @@ RSpec.describe StaticPagesController, :type => :controller do
   		end
 
       # NO FUNCIONA
-  		# it "should be shown ACCOUNT_PATH when visit ACCOUNT_PATH and the user is logged" do
-		  #   visit ('users/edit')
-		  #   expect( response ).to render_template( edit_user_registration_path )
-  		# end
+  		 it "should be shown ACCOUNT_PATH when visit ACCOUNT_PATH and the user is logged" do
+		     get "/users/edit"
+		     expect( response ).to render_template( edit_user_registration_path )
+  		 end
   	end
 	
 end

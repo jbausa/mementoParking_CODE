@@ -87,11 +87,8 @@ GEM
       railties (>= 3.0.0)
     font-awesome-sass (4.5.0)
       sass (>= 3.2)
-    geo_location (0.4.2)
-    geocoder (1.2.13)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
-    gmaps4rails (2.1.2)
     hashie (3.4.3)
     i18n (0.7.0)
     jbuilder (2.3.2)
@@ -231,9 +228,6 @@ DEPENDENCIES
   factory_girl
   factory_girl_rails
   font-awesome-sass
-  geo_location
-  geocoder
-  gmaps4rails
   jbuilder (~> 2.0)
   jquery-rails
   mongo
