@@ -13,7 +13,6 @@ gem 'bson_ext'
 gem 'bootstrap-sass'       # should be already included
 gem 'bootswatch-rails'
 gem 'font-awesome-sass'
-gem 'bootstrap_tokenfield_rails'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
