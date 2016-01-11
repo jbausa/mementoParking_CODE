@@ -46,7 +46,6 @@ GEM
     bootstrap-sass (3.3.6)
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
-    bootstrap_tokenfield_rails (0.12.1)
     bootswatch-rails (3.3.5)
       railties (>= 3.1)
     bson (3.2.6)
@@ -217,7 +216,6 @@ PLATFORMS
 
 DEPENDENCIES
   bootstrap-sass
-  bootstrap_tokenfield_rails
   bootswatch-rails
   bson_ext
   byebug
