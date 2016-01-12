@@ -174,7 +174,7 @@
 	 		markerCar = null;
 	 	}
 
-	 	if(address!=""){
+	 	if(address){
 	 		geocoder.geocode({'address': address}, function(results, status) {
 	 			if (status === google.maps.GeocoderStatus.OK) {
 	 				markerCar = new google.maps.Marker({
@@ -207,8 +207,9 @@
 	 				window.alert('Directions request failed due to ' + status);
 	 			}
 	 		});
-
-
+	 	}
+	 	else{
+	 		directionsDisplay.setMap(null);
 	 	}
 	 }
 
@@ -233,6 +234,7 @@
 	 		markerUserClick.setMap(null);
 	 		markerUserClick = null;
 	 	}
+	 	directionsDisplay.setMap(null);
 	 	clearSelectors();
 	 	setCarId == null;
 	 }	
@@ -263,8 +265,7 @@
 				$(this).closest('.additional-info-wrap').find('.additional-info').removeClass('hide').find('input,select').removeAttr('disabled');
 			}		
 		});
-	}); 
-	
+	});
 </script>
 
 <div class="jumbotron fixed-top">

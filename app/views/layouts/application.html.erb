@@ -5,6 +5,7 @@
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAVdlyqpDfn1sXmYcY9WJS4cfU0jnkIWao"></script>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true  %>
+  <%= javascript_include_tag 'maps', :cache => true %>
   <%= csrf_meta_tags %>
   <%= render 'layouts/shim' %>
 </head>
