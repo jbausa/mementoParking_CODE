@@ -11,6 +11,7 @@ gem 'bson_ext'
 
 # Use Bootstrap for friendly and responsive UI
 gem 'bootstrap-sass'       # should be already included
+gem 'autoprefixer-rails'
 gem 'bootswatch-rails'
 gem 'font-awesome-sass'
 gem 'jquery-ui-rails'
