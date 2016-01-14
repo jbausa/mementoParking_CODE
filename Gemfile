@@ -59,10 +59,15 @@ group :development, :test do
   gem 'byebug'
   
   # Rspec
+  gem "rspec"
   gem 'rspec-rails'
   gem 'factory_girl'
   gem 'factory_girl_rails'
   gem 'capybara'
+  gem "selenium"
+  gem "selenium-client"
+  gem "selenium-webdriver"
+  
 
 end
 
