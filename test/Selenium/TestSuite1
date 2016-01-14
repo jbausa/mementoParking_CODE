@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+  <title>Test Suite</title>
+</head>
+<body>
+<table id="suiteTable" cellpadding="1" cellspacing="1" border="1" class="selenium"><tbody>
+<tr><td><b>Test Suite</b></td></tr>
+<tr><td><a href="Acceso Usuario Anonimo Pagina Maps">Acceso Usuario Anónimo Página Maps</a></td></tr>
+<tr><td><a href="Acceso Usuario Anonimo Pagina Car">Acceso Usuario Anónimo Página Car</a></td></tr>
+<tr><td><a href="Acceso Usuario Anonimo Pagina Edit User">Acceso Usuario Anónimo Página Edit User</a></td></tr>
+<tr><td><a href="Crear Usuario">Crear Usuario</a></td></tr>
+<tr><td><a href="Acceso Usuario Pagina Maps">Acceso Usuario Página Maps</a></td></tr>
+<tr><td><a href="Acceso Usuario Pagina Car">Acceso Usuario Página Car</a></td></tr>
+<tr><td><a href="Acceso Usuario Pagina Edit User">Acceso Usuario Página Edit User</a></td></tr>
+</tbody></table>
+</body>
+</html>
