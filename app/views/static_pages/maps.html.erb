@@ -337,12 +337,7 @@
 						<% if carSharing.shared.include?(current_user.email) && userSharing.email != current_user.email%>
 						<% if index != 0 %> <li class="separator"/>	<% end %>
 						<li>
-							<h3><label class="label label-primary" style="display: inline-block; width: 100%"><i style="white-space: normal" class="fa fa-car label-car">&nbsp;&nbsp;<%= carSharing.description.upcase %> (Compartido por: <% if userSharing.name %> 
-												<%= userSharing.name %>
-											<% else %>
-												<%= userSharing.email %>
-											<% end %>
-											)</i></label></h3>
+							<h3><label class="label label-primary" style="display: inline-block; width: 100%"><i style="white-space: normal" class="fa fa-car label-car">&nbsp;&nbsp;<%= carSharing.description.upcase %></i></label></h3>
 							<label type="radio" for="<%= carSharing.description %>" class="radio-inline" onclick="addMarkerCar('<%= carSharing.address %>', this.id, '<%= userSharing.email %>')" id="<%= carSharing.id %>"> 
 								<% if(carSharing.address) %> 
 								<%= carSharing.address %>
