@@ -10,11 +10,11 @@
       <%= devise_error_messages! %>
 
       <div class="field">
-        <%= f.text_field :name, placeholder: "Nombre", style: "margin-top: 10px;" %>
+        <%= f.text_field :name, placeholder: "Name", style: "margin-top: 10px;" %>
       </div>
 
       <div class="field">
-        <%= f.text_field :surname, placeholder: "Apellidos", style: "margin-top: 10px;"%>
+        <%= f.text_field :surname, placeholder: "surname", style: "margin-top: 10px;"%>
       </div>
 
       <div class="field", style="margin-bottom: 10px;">
@@ -26,17 +26,17 @@
       <% end %>
 
       <div class="field">
-        <i>(Deja este campo en blanco si no quieres cambiar la contraseña)</i><br />
+        <i>(Leave this field blank if you do not want to change the password)</i><br />
         <%= f.password_field :password, autocomplete: "off", placeholder: "Contraseña"%>
       </div>
 
       <div class="field", style="margin-bottom: 10px;">
-        <%= f.password_field :password_confirmation, autocomplete: "off", placeholder: "Confirmar contraseña", style: "margin-top: 10px;" %>
+        <%= f.password_field :password_confirmation, autocomplete: "off", placeholder: "Confirm password", style: "margin-top: 10px;" %>
       </div>
 
       <div class="field">
-        <i>(Introduce tu contraseña actual para confirmar los cambios)</i><br />
-        <%= f.password_field :current_password, autocomplete: "off", placeholder: "Contraseña actual", required: true %>
+        <i>(Enter your current password to confirm changes)</i><br />
+        <%= f.password_field :current_password, autocomplete: "off", placeholder: "Current password", required: true %>
       </div>
 
 
@@ -49,7 +49,7 @@
   </div> <!-- End of first panel-->
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title"><span class="fa fa-trash" aria-hidden="true" style="margin-right: 10px"></span>Borrar mi cuenta</h3>
+      <h3 class="panel-title"><span class="fa fa-trash" aria-hidden="true" style="margin-right: 10px"></span>Delete my account</h3>
     </div>
     <div class="panel-body">
       <p><%= button_to "Borrar mi cuenta", registration_path(resource_name), data: { confirm: "¿Estás seguro?" }, method: :delete, :class => "btn-danger btn" %></p>

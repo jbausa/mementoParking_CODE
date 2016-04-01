@@ -1,4 +1,4 @@
-<% provide(:title, "Mis ubicaciones") %>
+<% provide(:title, "Your places") %>
 <script type="text/javascript" src='https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js'> </script>
 <script type="text/javascript">
 	 	// Variables and Setters
@@ -124,7 +124,7 @@
 	 			if (results[0]) {
 	 				map.setZoom(15);
 	 				address = results[0].formatted_address;
-	 				infowindow.setContent("<b>Nueva ubicación:</b><br>" + results[0].formatted_address);
+	 				infowindow.setContent("<b>New place:</b><br>" + results[0].formatted_address);
 	 				infowindow.open(map, markerUserClick);
 	 			} else {
 	 				window.alert('No results found');
@@ -295,7 +295,7 @@
 <div class="jumbotron fixed-top">
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h3 class="panel-title"><span class="fa fa-map-marker" aria-hidden="true" style="margin-right: 10px"></span>Mi mapa</h3>
+			<h3 class="panel-title"><span class="fa fa-map-marker" aria-hidden="true" style="margin-right: 10px"></span>My map</h3>
 		</div>
 		<div class="panel-body">
 			<div class="well">
@@ -308,18 +308,18 @@
 
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h3 class="panel-title"><span class="fa fa-car" aria-hidden="true" style="margin-right: 10px"></span>Mis ubicaciones</h3>
+			<h3 class="panel-title"><span class="fa fa-car" aria-hidden="true" style="margin-right: 10px"></span>Your places</h3>
 		</div>	
 		<div class="panel-body">
 			<!-- INFO, WARNING, ALERT AND ERROR PANELS -->
 			<div class="alert alert-info" id="lblPosition" style="font-size: 12px !important; display:none;"></div>
 			<div class="alert alert-danger alert-dismissible" role="alert" id="alertCoord" style="display:none;">
 				<button type="button" class="close" onclick="$(this).parent().hide()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<strong>¡Error!</strong> Selecciona una ubicación antes de guardar.
+				<strong>Error!</strong> Select a place before save.
 			</div>
 			<div class="alert alert-danger alert-dismissible" role="alert" id="alertCar" style="display:none;"	>
 				<button type="button" class="close" onclick="$(this).parent().hide()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<strong>¡Error!</strong> Selecciona un coche antes de guardar.
+				<strong>Error!</strong> Select a car before save.
 			</div>
 			<!-- END OF PANELS -->
 
@@ -329,7 +329,7 @@
 					<ul class="list-unstyled form-group">
 						<% @car = User.find_by(email: current_user.email).car %>
 						<% if @car.count == 0 %>
-						<li class="label label-danger">No tienes ubicaciones guardadas</li>
+						<li class="label label-danger">You have no saved places</li>
 						<% end %>
 						<% else %>
 						<% @car.each_with_index do |car, index| %>
@@ -348,7 +348,7 @@
 						</li>
 						<% end %>
 
-						<h3><label class="label label-warning" style="display: inline-block; width: 100%"><i class="fa fa-share-alt" id="description" style="white-space: normal">&nbsp;&nbsp;Compartidos conmigo:</i></label></h3>
+						<h3><label class="label label-warning" style="display: inline-block; width: 100%"><i class="fa fa-share-alt" id="description" style="white-space: normal">&nbsp;&nbsp;Shared with me:</i></label></h3>
 
 						<% @userSharing = User.where(:'car.shared' => current_user.email).all %>
 						<% index=0%>
@@ -365,7 +365,7 @@
 								<% if(carSharing.address) %> 
 								<%= carSharing.address %>
 								<% else %>
-								<%= "Selecciona una nueva ubicación" %> 
+								<%= "Select a new place" %> 
 								<% end %>
 							</label>
 							<script type="text/javascript">addMarkerDB('<%= carSharing.address %>', '<%= carSharing.description %>')</script>

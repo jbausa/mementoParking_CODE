@@ -1,4 +1,4 @@
-<% provide(:title, "Mis coches") %>
+<% provide(:title, "My Cars") %>
 
 <script type="text/javascript">	
 	/* Variables and setters */
@@ -49,7 +49,7 @@
 
 	/* Remove car in DB */
 	function removeCar(){
-	    if (confirm("¿Estás seguro de que deseas eliminar el coche seleccionado?")) {
+	    if (confirm("Are you sure you want to delete the selected car?")) {
 			window.open("deleteCar?&id="+selectedCarId,"_self");
 	    }
 	}
@@ -138,16 +138,16 @@
 <div class="jumbotron fixed-top">	
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h3 class="panel-title"><span class="fa fa-carList" aria-hidden="true" style="margin-right: 10px"></span>Mis coches</h3>
+			<h3 class="panel-title"><span class="fa fa-carList" aria-hidden="true" style="margin-right: 10px"></span>My cars</h3>
 		</div>	
 		<div class="panel-body">
 			<div class="alert alert-danger alert-dismissible" role="alert" id="lblNoCarSelected" style="display:none;">
 				<button type="button" class="close" onclick="$(this).parent().hide()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<strong>¡Error!</strong> Selecciona y cambia las opciones de un coche antes de guardar.
+				<strong>Error!</strong> Select and change the car options before save.
 			</div>
 			<div class="row vdivide well well-fixed">
 				<div class="col-md-9">
-					<h3><span class="label label-primary"><i class="fa fa-pencil-square-o">&nbsp;&nbsp;Editar Coche:</i></span></h3>
+					<h3><span class="label label-primary"><i class="fa fa-pencil-square-o">&nbsp;&nbsp;Edit Car:</i></span></h3>
 					<% @carList = User.find_by(email: current_user.email).car %>
 					<select id="optionList" class="form-control">
 						<option value="null">--</option>
@@ -158,7 +158,7 @@
 						<script type="text/javascript">insertSharedCar("<%= carList._id %>","<%= sharedList %>")</script>
 						<% end %>
 						<option disabled role="separator">
-							<option value="new">Crear nuevo coche</option>
+							<option value="new">Create new car</option>
 						</select>
 						
 						<ul id="description-car" class="list-unstyled form-group" style="margin-top:10px; display:none;">
@@ -166,24 +166,24 @@
 								<h3><span class="label label-primary"><i class="fa fa-car label-car" id="description" ></i></span></h3>
 							</li>
 							<li>
-								(Introduce la nueva descripción para el coche)
-								<input type="text" class="form-control" id="newDescription" placeholder="Nueva descripción" aria-describedby="basic-addon1">
+								(Enter description for the new car)
+								<input type="text" class="form-control" id="newDescription" placeholder="New Description" aria-describedby="basic-addon1">
 							</li>
 
 
 							<div class="form-group" style="margin-top:10px;">
-								<h3><span class="label label-primary"><i class="fa fa-share-alt" id="description">&nbsp;&nbsp;Compartido con:</i></span></h3>
+								<h3><span class="label label-primary"><i class="fa fa-share-alt" id="description">&nbsp;&nbsp;Shared with:</i></span></h3>
 
 								<div class="row">
 									<div class="col-lg-9">
 										<div class="input-group">
-											<input type="text" class="form-control" placeholder="Introduce un email" name="srch-term" id="inputMailShared">
-											<span class="input-group-btn"><button class="btn btn-primary" type="button" onclick="inputMail()">Compartir</button></span>
+											<input type="text" class="form-control" placeholder="Enter email address" name="srch-term" id="inputMailShared">
+											<span class="input-group-btn"><button class="btn btn-primary" type="button" onclick="inputMail()">Share</button></span>
 										</div>
 									</div>
 								</div>
 								<div class="alert alert-danger alert-dismissible" style="margin-top:10px; display:none;" role="alert" id="labelSharedMailIncorrect">
-									<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Introduce un email válido</div>
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Enter a correct email address</div>
 									<div class="well well-whyte" id="wellSharedMail">
 									</div>
 								</div>
@@ -191,8 +191,8 @@
 							</div>
 
 							<div class="col-md-3 text-center">
-								<div class="btn btn-primary btn-fixed" onclick="saveChanges()"><span class="fa fa-floppy-o fa-fixed"></span>Guardar cambios</div>
-								<button class="btn btn-danger btn-fixed" onclick="removeCar()" id="btnRemove"><span class="fa fa-trash fa-fixed"></span>Eliminar coche</button>
+								<div class="btn btn-primary btn-fixed" onclick="saveChanges()"><span class="fa fa-floppy-o fa-fixed"></span>Save changes</div>
+								<button class="btn btn-danger btn-fixed" onclick="removeCar()" id="btnRemove"><span class="fa fa-trash fa-fixed"></span>Delete car</button>
 							</div>
 						</div>			
 					</div>	
