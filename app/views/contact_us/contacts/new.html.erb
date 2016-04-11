@@ -1,7 +1,7 @@
 <div class="jumbotron fixed-top">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title">Contáctenos</h3>
+      <h3 class="panel-title">Contact us</h3>
     </div>
     <div class="panel-body">
       <%= form_for @contact, :url => contacts_path, :html => {:class => 'formtastic'} do |f| %>
@@ -16,7 +16,7 @@
       <% end %>
       <div class='string required' id='contact_us_contact_email_input'>
         <%# <%= f.label :email, (t('.email') + content_tag(:abbr, '*', :class => 'required')).html_safe %>
-        <%= f.text_field :email, placeholder: "Email de contacto", :style => "width:40%;" %>
+        <%= f.text_field :email, placeholder: "Contact email", :style => "width:40%;" %>
         <% if f.object.errors[:email].present? %>
         <p class='inline-error'><%= f.object.errors[:email].join(' and ') %></p>
         <% end %>
@@ -32,13 +32,13 @@
       <% end %>
       <div class='text required' id='contact_us_contact_message_input' style="margin-top: 10px;">
         <%# <%= f.label :message, (t('.message') + content_tag(:abbr, '*', :class => 'required')).html_safe %>
-        <%= f.text_area :message, placeholder: "Escribe aquí tu comentario", :style => "width:100%; height: 100px;" %>
+        <%= f.text_area :message, placeholder: "Type your comment here", :style => "width:100%; height: 100px;" %>
         <% if f.object.errors[:message].present? %>
         <p class='inline-error'><%= f.object.errors[:message].join(' y ') %></p>
         <% end %>
       </div>
       <div class='commit'>
-        <%= f.submit "Enviar", :class => 'submit create btn btn-default', :title => t('.submit'), disabled: true %>
+        <%= f.submit "Send", :class => 'submit create btn btn-default', :title => t('.submit'), disabled: true %>
       </div>
       <% end %>
     </div>
