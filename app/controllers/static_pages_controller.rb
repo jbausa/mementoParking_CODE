@@ -67,9 +67,9 @@ class StaticPagesController < ApplicationController
     @user = User.find_by(email: mail)    
     if params[:newdescription] != ""
       @user.car.create!(description: params[:newdescription])
-      flash[:success] = "Se ha creado un nuevo coche"
+      flash[:success] = "A new car was created"
     else
-      flash[:alert] = "Error al crear el nuevo coche. Introduce una descripción."
+      flash[:alert] = "Error creating the new car. Enter a description."
     end
     redirect_to car_path
   end
@@ -79,9 +79,9 @@ class StaticPagesController < ApplicationController
     @user = User.find_by(email: mail)
     @car = @user.car.find_by(_id: params[:id])
     if @car.delete
-      flash[:success] = "Coche eliminado correctamente"
+      flash[:success] = "Car successfully removed"
     else
-      flash[:alert] = "Error al eliminar el coche"
+      flash[:alert] = "Failed to remove the car"
     end
     redirect_to car_path
   end

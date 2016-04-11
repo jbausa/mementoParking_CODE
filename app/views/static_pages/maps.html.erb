@@ -341,7 +341,7 @@
 								<% if(car.address) %> 
 								<%= car.address %>
 								<% else %>
-								<%= "Selecciona una nueva ubicación" %> 
+								<%= "Select the new location" %> 
 								<% end %>
 							</label>
 							<script type="text/javascript">addMarkerDB('<%= car.address %>', '<%= car.description %>')</script>
@@ -380,11 +380,11 @@
 				</div>
 				<!-- END LIST UBICATIONS -->
 				<div class="col-md-3 text-center">
-					<div class="btn btn-primary btn-fixed" onclick="getLocation()"><span class="glyphicon glyphicon-screenshot fa-fixed"></span>Centrar</div>
-					<div class="btn btn-primary btn-fixed" onclick="saveLocation()"><span class="fa fa-map-marker fa-fixed"></span>Guardar marcador</div>  
-					<div class="btn btn-primary btn-fixed" onclick="clearMarkers()"><span class="fa fa-map-o fa-fixed"></span>Limpiar mapa</div>
-					<div class="btn btn-primary btn-fixed" onclick="setMapOnAll()"><span class="fa fa-eye fa-fixed"></span>Mostrar ubicaciones</div>
-					<div class="btn btn-primary btn-fixed" onclick="saveLocationHome()"><span class="fa  fa-street-view fa-fixed"></span>Guardar ubicación actual</div>
+					<div class="btn btn-primary btn-fixed" onclick="getLocation()"><span class="glyphicon glyphicon-screenshot fa-fixed"></span>Center</div>
+					<div class="btn btn-primary btn-fixed" onclick="saveLocation()"><span class="fa fa-map-marker fa-fixed"></span>Save Signpost</div>  
+					<div class="btn btn-primary btn-fixed" onclick="clearMarkers()"><span class="fa fa-map-o fa-fixed"></span>Clean map</div>
+					<div class="btn btn-primary btn-fixed" onclick="setMapOnAll()"><span class="fa fa-eye fa-fixed"></span>Show locations</div>
+					<div class="btn btn-primary btn-fixed" onclick="saveLocationHome()"><span class="fa  fa-street-view fa-fixed"></span>Save current location</div>
 				</div>
 			</div>	
 		</div>

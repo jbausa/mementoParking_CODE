@@ -2,7 +2,7 @@
 <div class="jumbotron fixed-top">
   <div class="panel panel-default">
     <div class="panel-heading">
-    <h3 class="panel-title"><span class="glyphicon glyphicon-edit" aria-hidden="true" style="margin-right: 10px"></span>Mis datos personales</h3>
+    <h3 class="panel-title"><span class="glyphicon glyphicon-edit" aria-hidden="true" style="margin-right: 10px"></span>My Personal Data</h3>
     </div>
 
     <div class="panel-body">
@@ -27,7 +27,7 @@
 
       <div class="field">
         <i>(Leave this field blank if you do not want to change the password)</i><br />
-        <%= f.password_field :password, autocomplete: "off", placeholder: "Contraseña"%>
+        <%= f.password_field :password, autocomplete: "off", placeholder: "Password"%>
       </div>
 
       <div class="field", style="margin-bottom: 10px;">
@@ -41,7 +41,7 @@
 
 
       <div class="actions">
-        <%= f.submit "Confirmar cambios", :class => "btn-primary btn", style: "margin-top: 10px;" %>
+        <%= f.submit "Save Changes", :class => "btn-primary btn", style: "margin-top: 10px;" %>
       </div>
       <% end %>
 
@@ -52,7 +52,7 @@
       <h3 class="panel-title"><span class="fa fa-trash" aria-hidden="true" style="margin-right: 10px"></span>Delete my account</h3>
     </div>
     <div class="panel-body">
-      <p><%= button_to "Borrar mi cuenta", registration_path(resource_name), data: { confirm: "¿Estás seguro?" }, method: :delete, :class => "btn-danger btn" %></p>
+      <p><%= button_to "Delete my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, :class => "btn-danger btn" %></p>
     </div>
   </div> <!-- End ofsecond panel -->
 </div> <!-- End of jumbotron -->
