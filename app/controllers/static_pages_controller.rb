@@ -21,9 +21,9 @@ class StaticPagesController < ApplicationController
       @car = @user.car.find(params[:carId])
 
     if @car.update({coordinates: params[:coord], address: params[:address]})
-      flash[:success] = "Dirección actualizada correctamente"
+      flash[:success] = "Address updated"
     else
-      flash[:alert] = "Error al actualizar la dirección"
+      flash[:alert] = "Failed to update address"
     end
     redirect_to maps_path
   end
@@ -41,7 +41,7 @@ class StaticPagesController < ApplicationController
     @car.set({shared: []})
     params[:shared].split(",").each do |sharedUser|
       if @car.add_to_set({shared: sharedUser})
-        flash[:success] = "Compartido cambiado correctamente"
+        flash[:success] = "Car share changed correctly"
       else
         @alert = false
       end
@@ -49,14 +49,14 @@ class StaticPagesController < ApplicationController
 
     if params[:newdescription] != ""
       if @car.update({description: params[:newdescription]})
-        flash[:success] = "Descripción cambiada correctamente" + params[:shared]
+        flash[:success] = "Description updated" + params[:shared]
       else
         @alert = false
       end
     end
     
     if(!@alert)
-      flash[:alert] = "Error al realizar los cambios"
+      flash[:alert] = "Failed to make changes"
     end
 
     redirect_to car_path
